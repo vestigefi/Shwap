@@ -22,13 +22,35 @@ export function _getViews(s, viewlib) {
   const ctc3 = stdlib.T_Bool;
   const ctc4 = stdlib.T_Tuple([ctc1, ctc1, ctc3]);
   const ctc5 = stdlib.T_Array(ctc4, stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '1'));
+  const ctc6 = stdlib.T_Tuple([ctc3, ctc3, ctc1, ctc1, ctc1, ctc1, ctc1, ctc1, ctc1]);
   
   return {
     infos: {
+      SchmeckleShopView: {
+        read: {
+          decode: async (i, svs, args) => {
+            if (stdlib.eq(i, stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '1'))) {
+              const [v552, v553, v554, v555, v556, v557, v558, v565] = svs;
+              stdlib.assert(false, 'illegal view')
+              }
+            if (stdlib.eq(i, stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '4'))) {
+              const [v552, v553, v554, v555, v556, v584, v585, v586, v587, v588, v589, v590, v591, v592, v593, v599, v600] = svs;
+              return (await ((async () => {
+                
+                const v613 = [v586, v587, v588, v584, v589, v590, v591, v592, v585];
+                
+                return v613;}))(...args));
+              }
+            
+            stdlib.assert(false, 'illegal view')
+            },
+          ty: ctc6
+          }
+        }
       },
     views: {
-      1: [ctc0, ctc1, ctc1, ctc2, ctc1, ctc5],
-      4: [ctc0, ctc1, ctc1, ctc2, ctc1, ctc1, ctc1, ctc1, ctc1, ctc1, ctc5, ctc1]
+      1: [ctc0, ctc1, ctc1, ctc1, ctc2, ctc1, ctc1, ctc5],
+      4: [ctc0, ctc1, ctc1, ctc1, ctc2, ctc1, ctc1, ctc3, ctc3, ctc1, ctc1, ctc1, ctc1, ctc1, ctc1, ctc5, ctc1]
       }
     };
   
@@ -52,6 +74,7 @@ export async function Schmeckler(ctcTop, interact) {
   const ctc2 = stdlib.T_Object({
     fee: ctc0,
     initialPrice: ctc0,
+    rebaseTime: ctc0,
     schmeckleAmount: ctc0,
     schmeckles: ctc1
     });
@@ -59,9 +82,10 @@ export async function Schmeckler(ctcTop, interact) {
   const ctc4 = stdlib.T_Tuple([]);
   const ctc5 = stdlib.T_Tuple([ctc0]);
   const ctc6 = stdlib.T_Data({
-    SchmecklerAPI_claimFees0_75: ctc4,
-    Schmuck_buy0_75: ctc5,
-    Schmuck_sell0_75: ctc5
+    SchmecklerAPI_claimFees0_84: ctc4,
+    Schmuck_buy0_84: ctc5,
+    Schmuck_rebase0_84: ctc4,
+    Schmuck_sell0_84: ctc5
     });
   const ctc7 = stdlib.T_Bool;
   const ctc8 = stdlib.T_Address;
@@ -69,44 +93,45 @@ export async function Schmeckler(ctcTop, interact) {
   const ctc10 = stdlib.T_Array(ctc9, stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '1'));
   
   
-  const v428 = [stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '0'), stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '0'), false];
-  const v429 = [v428];
-  const v435 = stdlib.protect(ctc2, await interact.setUpShop(), {
-    at: './index.rsh:38:37:application',
-    fs: ['at ./index.rsh:32:18:application call to [unknown function] (defined at: ./index.rsh:32:22:function exp)'],
+  const v534 = [stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '0'), stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '0'), false];
+  const v535 = [v534];
+  const v541 = stdlib.protect(ctc2, await interact.setUpShop(), {
+    at: './index.rsh:49:37:application',
+    fs: ['at ./index.rsh:42:18:application call to [unknown function] (defined at: ./index.rsh:42:22:function exp)'],
     msg: 'setUpShop',
     who: 'Schmeckler'
     });
-  const v436 = v435.fee;
-  const v437 = v435.initialPrice;
-  const v438 = v435.schmeckleAmount;
-  const v439 = v435.schmeckles;
+  const v542 = v541.fee;
+  const v543 = v541.initialPrice;
+  const v544 = v541.rebaseTime;
+  const v545 = v541.schmeckleAmount;
+  const v546 = v541.schmeckles;
   
   const txn1 = await (ctc.sendrecv({
-    args: [v436, v437, v439, v438],
-    evt_cnt: 4,
+    args: [v542, v543, v544, v546, v545],
+    evt_cnt: 5,
     funcNum: 0,
-    lct: stdlib.checkedBigNumberify('./index.rsh:41:14:dot', stdlib.UInt_max, '0'),
+    lct: stdlib.checkedBigNumberify('./index.rsh:52:14:dot', stdlib.UInt_max, '0'),
     onlyIf: true,
-    out_tys: [ctc0, ctc0, ctc1, ctc0],
-    pay: [stdlib.checkedBigNumberify('./index.rsh:41:14:decimal', stdlib.UInt_max, '0'), []],
+    out_tys: [ctc0, ctc0, ctc0, ctc1, ctc0],
+    pay: [stdlib.checkedBigNumberify('./index.rsh:52:14:decimal', stdlib.UInt_max, '0'), []],
     sim_p: (async (txn1) => {
       const sim_r = { txns: [], mapRefs: [], maps: [] };
       let sim_txn_ctr = stdlib.UInt_max;
       const getSimTokCtr = () => { sim_txn_ctr = sim_txn_ctr.sub(1); return sim_txn_ctr; };
       
       
-      const {data: [v445, v446, v447, v448], secs: v450, time: v449, didSend: v38, from: v444 } = txn1;
+      const {data: [v553, v554, v555, v556, v557], secs: v559, time: v558, didSend: v41, from: v552 } = txn1;
       
-      const v451 = v429[stdlib.checkedBigNumberify('./index.rsh:41:14:dot', stdlib.UInt_max, '0')];
-      const v453 = v451[stdlib.checkedBigNumberify('./index.rsh:41:14:dot', stdlib.UInt_max, '1')];
-      const v454 = v451[stdlib.checkedBigNumberify('./index.rsh:41:14:dot', stdlib.UInt_max, '2')];
-      const v455 = [stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '0'), v453, v454];
-      const v456 = stdlib.Array_set(v429, stdlib.checkedBigNumberify('./index.rsh:41:14:dot', stdlib.UInt_max, '0'), v455);
+      const v560 = v535[stdlib.checkedBigNumberify('./index.rsh:52:14:dot', stdlib.UInt_max, '0')];
+      const v562 = v560[stdlib.checkedBigNumberify('./index.rsh:52:14:dot', stdlib.UInt_max, '1')];
+      const v563 = v560[stdlib.checkedBigNumberify('./index.rsh:52:14:dot', stdlib.UInt_max, '2')];
+      const v564 = [stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '0'), v562, v563];
+      const v565 = stdlib.Array_set(v535, stdlib.checkedBigNumberify('./index.rsh:52:14:dot', stdlib.UInt_max, '0'), v564);
       sim_r.txns.push({
         amt: stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '0'),
         kind: 'init',
-        tok: v447
+        tok: v556
         });
       ;
       sim_r.isHalt = false;
@@ -115,87 +140,89 @@ export async function Schmeckler(ctcTop, interact) {
       }),
     soloSend: true,
     timeoutAt: undefined /* mto */,
-    tys: [ctc0, ctc0, ctc1, ctc0],
+    tys: [ctc0, ctc0, ctc0, ctc1, ctc0],
     waitIfNotPresent: false
     }));
-  const {data: [v445, v446, v447, v448], secs: v450, time: v449, didSend: v38, from: v444 } = txn1;
-  const v451 = v429[stdlib.checkedBigNumberify('./index.rsh:41:14:dot', stdlib.UInt_max, '0')];
-  const v453 = v451[stdlib.checkedBigNumberify('./index.rsh:41:14:dot', stdlib.UInt_max, '1')];
-  const v454 = v451[stdlib.checkedBigNumberify('./index.rsh:41:14:dot', stdlib.UInt_max, '2')];
-  const v455 = [stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '0'), v453, v454];
-  const v456 = stdlib.Array_set(v429, stdlib.checkedBigNumberify('./index.rsh:41:14:dot', stdlib.UInt_max, '0'), v455);
+  const {data: [v553, v554, v555, v556, v557], secs: v559, time: v558, didSend: v41, from: v552 } = txn1;
+  const v560 = v535[stdlib.checkedBigNumberify('./index.rsh:52:14:dot', stdlib.UInt_max, '0')];
+  const v562 = v560[stdlib.checkedBigNumberify('./index.rsh:52:14:dot', stdlib.UInt_max, '1')];
+  const v563 = v560[stdlib.checkedBigNumberify('./index.rsh:52:14:dot', stdlib.UInt_max, '2')];
+  const v564 = [stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '0'), v562, v563];
+  const v565 = stdlib.Array_set(v535, stdlib.checkedBigNumberify('./index.rsh:52:14:dot', stdlib.UInt_max, '0'), v564);
   ;
   ;
   const txn2 = await (ctc.sendrecv({
-    args: [v444, v445, v446, v447, v448, v456],
+    args: [v552, v553, v554, v555, v556, v557, v558, v565],
     evt_cnt: 0,
     funcNum: 1,
-    lct: v449,
+    lct: v558,
     onlyIf: true,
     out_tys: [],
-    pay: [stdlib.checkedBigNumberify('./index.rsh:51:14:dot', stdlib.UInt_max, '0'), [[v448, v447]]],
+    pay: [stdlib.checkedBigNumberify('./index.rsh:63:14:dot', stdlib.UInt_max, '0'), [[v557, v556]]],
     sim_p: (async (txn2) => {
       const sim_r = { txns: [], mapRefs: [], maps: [] };
       let sim_txn_ctr = stdlib.UInt_max;
       const getSimTokCtr = () => { sim_txn_ctr = sim_txn_ctr.sub(1); return sim_txn_ctr; };
       
       
-      const {data: [], secs: v460, time: v459, didSend: v45, from: v458 } = txn2;
+      const {data: [], secs: v569, time: v568, didSend: v48, from: v567 } = txn2;
       
       ;
-      const v461 = v456[stdlib.checkedBigNumberify('./index.rsh:51:14:dot', stdlib.UInt_max, '0')];
-      const v462 = v461[stdlib.checkedBigNumberify('./index.rsh:51:14:dot', stdlib.UInt_max, '0')];
-      const v463 = stdlib.add(v462, v448);
-      const v466 = v461[stdlib.checkedBigNumberify('./index.rsh:51:14:dot', stdlib.UInt_max, '1')];
-      const v467 = v461[stdlib.checkedBigNumberify('./index.rsh:51:14:dot', stdlib.UInt_max, '2')];
-      const v468 = [v463, v466, v467];
-      const v469 = stdlib.Array_set(v456, stdlib.checkedBigNumberify('./index.rsh:51:14:dot', stdlib.UInt_max, '0'), v468);
+      const v570 = v565[stdlib.checkedBigNumberify('./index.rsh:63:14:dot', stdlib.UInt_max, '0')];
+      const v571 = v570[stdlib.checkedBigNumberify('./index.rsh:63:14:dot', stdlib.UInt_max, '0')];
+      const v572 = stdlib.add(v571, v557);
+      const v575 = v570[stdlib.checkedBigNumberify('./index.rsh:63:14:dot', stdlib.UInt_max, '1')];
+      const v576 = v570[stdlib.checkedBigNumberify('./index.rsh:63:14:dot', stdlib.UInt_max, '2')];
+      const v577 = [v572, v575, v576];
+      const v578 = stdlib.Array_set(v565, stdlib.checkedBigNumberify('./index.rsh:63:14:dot', stdlib.UInt_max, '0'), v577);
       sim_r.txns.push({
-        amt: v448,
+        amt: v557,
         kind: 'to',
-        tok: v447
+        tok: v556
         });
-      const v470 = stdlib.addressEq(v444, v458);
+      const v579 = stdlib.addressEq(v552, v567);
       ;
       
-      const v474 = stdlib.checkedBigNumberify('./index.rsh:69:35:decimal', stdlib.UInt_max, '0');
-      const v475 = true;
-      const v477 = stdlib.checkedBigNumberify('./index.rsh:69:32:decimal', stdlib.UInt_max, '0');
-      const v478 = stdlib.checkedBigNumberify('./index.rsh:69:39:decimal', stdlib.UInt_max, '0');
-      const v479 = v446;
-      const v480 = stdlib.checkedBigNumberify('./index.rsh:69:57:decimal', stdlib.UInt_max, '0');
-      const v481 = stdlib.checkedBigNumberify('./index.rsh:69:60:decimal', stdlib.UInt_max, '0');
-      const v482 = v459;
-      const v488 = v469;
-      const v489 = stdlib.checkedBigNumberify('./index.rsh:30:9:after expr stmt semicolon', stdlib.UInt_max, '0');
+      const v584 = stdlib.checkedBigNumberify('./index.rsh:74:35:decimal', stdlib.UInt_max, '0');
+      const v585 = v558;
+      const v586 = true;
+      const v587 = false;
+      const v588 = stdlib.checkedBigNumberify('./index.rsh:74:32:decimal', stdlib.UInt_max, '0');
+      const v589 = stdlib.checkedBigNumberify('./index.rsh:74:39:decimal', stdlib.UInt_max, '0');
+      const v590 = v554;
+      const v591 = stdlib.checkedBigNumberify('./index.rsh:74:57:decimal', stdlib.UInt_max, '0');
+      const v592 = stdlib.checkedBigNumberify('./index.rsh:74:60:decimal', stdlib.UInt_max, '0');
+      const v593 = v568;
+      const v599 = v578;
+      const v600 = stdlib.checkedBigNumberify('./index.rsh:40:9:after expr stmt semicolon', stdlib.UInt_max, '0');
       
       if (await (async () => {
-        const v498 = v488[stdlib.checkedBigNumberify('./index.rsh:72:30:application', stdlib.UInt_max, '0')];
-        const v499 = v498[stdlib.checkedBigNumberify('./index.rsh:72:30:application', stdlib.UInt_max, '0')];
-        const v500 = stdlib.gt(v499, stdlib.checkedBigNumberify('./index.rsh:72:45:decimal', stdlib.UInt_max, '0'));
-        const v501 = v475 ? v500 : false;
+        const v609 = v599[stdlib.checkedBigNumberify('./index.rsh:80:30:application', stdlib.UInt_max, '0')];
+        const v610 = v609[stdlib.checkedBigNumberify('./index.rsh:80:30:application', stdlib.UInt_max, '0')];
+        const v611 = stdlib.gt(v610, stdlib.checkedBigNumberify('./index.rsh:80:45:decimal', stdlib.UInt_max, '0'));
+        const v612 = v586 ? v611 : false;
         
-        return v501;})()) {
+        return v612;})()) {
         sim_r.isHalt = false;
         }
       else {
-        const v933 = v488[stdlib.checkedBigNumberify('./index.rsh:138:32:application', stdlib.UInt_max, '0')];
-        const v934 = v933[stdlib.checkedBigNumberify('./index.rsh:138:32:application', stdlib.UInt_max, '0')];
+        const v1326 = v599[stdlib.checkedBigNumberify('./index.rsh:179:32:application', stdlib.UInt_max, '0')];
+        const v1327 = v1326[stdlib.checkedBigNumberify('./index.rsh:179:32:application', stdlib.UInt_max, '0')];
         sim_r.txns.push({
-          amt: v489,
+          amt: v600,
           kind: 'from',
-          to: v444,
+          to: v552,
           tok: undefined /* Nothing */
           });
         sim_r.txns.push({
-          amt: v934,
+          amt: v1327,
           kind: 'from',
-          to: v444,
-          tok: v447
+          to: v552,
+          tok: v556
           });
         sim_r.txns.push({
           kind: 'halt',
-          tok: v447
+          tok: v556
           })
         sim_r.txns.push({
           kind: 'halt',
@@ -207,22 +234,22 @@ export async function Schmeckler(ctcTop, interact) {
       }),
     soloSend: true,
     timeoutAt: undefined /* mto */,
-    tys: [ctc8, ctc0, ctc0, ctc1, ctc0, ctc10],
+    tys: [ctc8, ctc0, ctc0, ctc0, ctc1, ctc0, ctc0, ctc10],
     waitIfNotPresent: false
     }));
-  const {data: [], secs: v460, time: v459, didSend: v45, from: v458 } = txn2;
+  const {data: [], secs: v569, time: v568, didSend: v48, from: v567 } = txn2;
   ;
-  const v461 = v456[stdlib.checkedBigNumberify('./index.rsh:51:14:dot', stdlib.UInt_max, '0')];
-  const v462 = v461[stdlib.checkedBigNumberify('./index.rsh:51:14:dot', stdlib.UInt_max, '0')];
-  const v463 = stdlib.add(v462, v448);
-  const v466 = v461[stdlib.checkedBigNumberify('./index.rsh:51:14:dot', stdlib.UInt_max, '1')];
-  const v467 = v461[stdlib.checkedBigNumberify('./index.rsh:51:14:dot', stdlib.UInt_max, '2')];
-  const v468 = [v463, v466, v467];
-  const v469 = stdlib.Array_set(v456, stdlib.checkedBigNumberify('./index.rsh:51:14:dot', stdlib.UInt_max, '0'), v468);
+  const v570 = v565[stdlib.checkedBigNumberify('./index.rsh:63:14:dot', stdlib.UInt_max, '0')];
+  const v571 = v570[stdlib.checkedBigNumberify('./index.rsh:63:14:dot', stdlib.UInt_max, '0')];
+  const v572 = stdlib.add(v571, v557);
+  const v575 = v570[stdlib.checkedBigNumberify('./index.rsh:63:14:dot', stdlib.UInt_max, '1')];
+  const v576 = v570[stdlib.checkedBigNumberify('./index.rsh:63:14:dot', stdlib.UInt_max, '2')];
+  const v577 = [v572, v575, v576];
+  const v578 = stdlib.Array_set(v565, stdlib.checkedBigNumberify('./index.rsh:63:14:dot', stdlib.UInt_max, '0'), v577);
   ;
-  const v470 = stdlib.addressEq(v444, v458);
-  stdlib.assert(v470, {
-    at: './index.rsh:51:14:dot',
+  const v579 = stdlib.addressEq(v552, v567);
+  stdlib.assert(v579, {
+    at: './index.rsh:63:14:dot',
     fs: [],
     msg: 'sender correct',
     who: 'Schmeckler'
@@ -234,24 +261,26 @@ export async function Schmeckler(ctcTop, interact) {
     who: 'Schmeckler'
     });
   
-  let v474 = stdlib.checkedBigNumberify('./index.rsh:69:35:decimal', stdlib.UInt_max, '0');
-  let v475 = true;
-  let v477 = stdlib.checkedBigNumberify('./index.rsh:69:32:decimal', stdlib.UInt_max, '0');
-  let v478 = stdlib.checkedBigNumberify('./index.rsh:69:39:decimal', stdlib.UInt_max, '0');
-  let v479 = v446;
-  let v480 = stdlib.checkedBigNumberify('./index.rsh:69:57:decimal', stdlib.UInt_max, '0');
-  let v481 = stdlib.checkedBigNumberify('./index.rsh:69:60:decimal', stdlib.UInt_max, '0');
-  let v482 = v459;
-  let v488 = v469;
-  let v489 = stdlib.checkedBigNumberify('./index.rsh:30:9:after expr stmt semicolon', stdlib.UInt_max, '0');
+  let v584 = stdlib.checkedBigNumberify('./index.rsh:74:35:decimal', stdlib.UInt_max, '0');
+  let v585 = v558;
+  let v586 = true;
+  let v587 = false;
+  let v588 = stdlib.checkedBigNumberify('./index.rsh:74:32:decimal', stdlib.UInt_max, '0');
+  let v589 = stdlib.checkedBigNumberify('./index.rsh:74:39:decimal', stdlib.UInt_max, '0');
+  let v590 = v554;
+  let v591 = stdlib.checkedBigNumberify('./index.rsh:74:57:decimal', stdlib.UInt_max, '0');
+  let v592 = stdlib.checkedBigNumberify('./index.rsh:74:60:decimal', stdlib.UInt_max, '0');
+  let v593 = v568;
+  let v599 = v578;
+  let v600 = stdlib.checkedBigNumberify('./index.rsh:40:9:after expr stmt semicolon', stdlib.UInt_max, '0');
   
   while (await (async () => {
-    const v498 = v488[stdlib.checkedBigNumberify('./index.rsh:72:30:application', stdlib.UInt_max, '0')];
-    const v499 = v498[stdlib.checkedBigNumberify('./index.rsh:72:30:application', stdlib.UInt_max, '0')];
-    const v500 = stdlib.gt(v499, stdlib.checkedBigNumberify('./index.rsh:72:45:decimal', stdlib.UInt_max, '0'));
-    const v501 = v475 ? v500 : false;
+    const v609 = v599[stdlib.checkedBigNumberify('./index.rsh:80:30:application', stdlib.UInt_max, '0')];
+    const v610 = v609[stdlib.checkedBigNumberify('./index.rsh:80:30:application', stdlib.UInt_max, '0')];
+    const v611 = stdlib.gt(v610, stdlib.checkedBigNumberify('./index.rsh:80:45:decimal', stdlib.UInt_max, '0'));
+    const v612 = v586 ? v611 : false;
     
-    return v501;})()) {
+    return v612;})()) {
     const txn3 = await (ctc.recv({
       didSend: false,
       evt_cnt: 1,
@@ -260,172 +289,250 @@ export async function Schmeckler(ctcTop, interact) {
       timeoutAt: undefined /* mto */,
       waitIfNotPresent: false
       }));
-    const {data: [v575], secs: v577, time: v576, didSend: v254, from: v574 } = txn3;
-    switch (v575[0]) {
-      case 'SchmecklerAPI_claimFees0_75': {
-        const v578 = v575[1];
+    const {data: [v709], secs: v711, time: v710, didSend: v313, from: v708 } = txn3;
+    switch (v709[0]) {
+      case 'SchmecklerAPI_claimFees0_84': {
+        const v712 = v709[1];
         undefined /* setApiDetails */;
         ;
-        const v613 = v488[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0')];
-        const v614 = v613[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0')];
-        const v618 = v613[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '1')];
-        const v619 = v613[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '2')];
-        const v620 = [v614, v618, v619];
-        const v621 = stdlib.Array_set(v488, stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0'), v620);
+        const v754 = v599[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0')];
+        const v755 = v754[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0')];
+        const v759 = v754[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '1')];
+        const v760 = v754[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '2')];
+        const v761 = [v755, v759, v760];
+        const v762 = stdlib.Array_set(v599, stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0'), v761);
         ;
-        const v626 = stdlib.sub(v489, v481);
+        const v767 = stdlib.sub(v600, v592);
         ;
-        const v627 = true;
-        await txn3.getOutput('SchmecklerAPI_claimFees', 'v627', ctc7, v627);
-        const cv474 = v474;
-        const cv475 = true;
-        const cv477 = v477;
-        const cv478 = v478;
-        const cv479 = v479;
-        const cv480 = v480;
-        const cv481 = stdlib.checkedBigNumberify('./index.rsh:135:9:decimal', stdlib.UInt_max, '0');
-        const cv482 = v576;
-        const cv488 = v621;
-        const cv489 = v626;
+        const v768 = true;
+        await txn3.getOutput('SchmecklerAPI_claimFees', 'v768', ctc7, v768);
+        const cv584 = v584;
+        const cv585 = v585;
+        const cv586 = true;
+        const cv587 = v587;
+        const cv588 = v588;
+        const cv589 = v589;
+        const cv590 = v590;
+        const cv591 = v591;
+        const cv592 = stdlib.checkedBigNumberify('./index.rsh:176:9:decimal', stdlib.UInt_max, '0');
+        const cv593 = v710;
+        const cv599 = v762;
+        const cv600 = v767;
         
-        v474 = cv474;
-        v475 = cv475;
-        v477 = cv477;
-        v478 = cv478;
-        v479 = cv479;
-        v480 = cv480;
-        v481 = cv481;
-        v482 = cv482;
-        v488 = cv488;
-        v489 = cv489;
+        v584 = cv584;
+        v585 = cv585;
+        v586 = cv586;
+        v587 = cv587;
+        v588 = cv588;
+        v589 = cv589;
+        v590 = cv590;
+        v591 = cv591;
+        v592 = cv592;
+        v593 = cv593;
+        v599 = cv599;
+        v600 = cv600;
         
         continue;
         break;
         }
-      case 'Schmuck_buy0_75': {
-        const v696 = v575[1];
+      case 'Schmuck_buy0_84': {
+        const v865 = v709[1];
         undefined /* setApiDetails */;
-        const v707 = stdlib.add(v445, v479);
-        const v730 = stdlib.add(v489, v707);
+        const v876 = stdlib.add(v553, v590);
+        const v906 = stdlib.add(v600, v876);
         ;
-        const v731 = v488[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0')];
-        const v732 = v731[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0')];
-        const v736 = v731[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '1')];
-        const v737 = v731[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '2')];
-        const v738 = [v732, v736, v737];
-        const v739 = stdlib.Array_set(v488, stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0'), v738);
+        const v907 = v599[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0')];
+        const v908 = v907[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0')];
+        const v912 = v907[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '1')];
+        const v913 = v907[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '2')];
+        const v914 = [v908, v912, v913];
+        const v915 = stdlib.Array_set(v599, stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0'), v914);
         ;
-        const v753 = v696[stdlib.checkedBigNumberify('./index.rsh:74:7:spread', stdlib.UInt_max, '0')];
-        const v754 = stdlib.eq(v753, stdlib.checkedBigNumberify('./index.rsh:78:26:decimal', stdlib.UInt_max, '1'));
-        stdlib.assert(v754, {
-          at: './index.rsh:78:15:application',
-          fs: ['at ./index.rsh:77:17:application call to [unknown function] (defined at: ./index.rsh:77:17:function exp)'],
+        const v929 = v865[stdlib.checkedBigNumberify('./index.rsh:82:7:spread', stdlib.UInt_max, '0')];
+        const v930 = stdlib.eq(v929, stdlib.checkedBigNumberify('./index.rsh:86:26:decimal', stdlib.UInt_max, '1'));
+        stdlib.assert(v930, {
+          at: './index.rsh:86:15:application',
+          fs: ['at ./index.rsh:85:17:application call to [unknown function] (defined at: ./index.rsh:85:17:function exp)'],
           msg: null,
           who: 'Schmeckler'
           });
-        const v755 = v739[stdlib.checkedBigNumberify('./index.rsh:79:42:application', stdlib.UInt_max, '0')];
-        const v756 = v755[stdlib.checkedBigNumberify('./index.rsh:79:42:application', stdlib.UInt_max, '0')];
-        const v760 = stdlib.sub(v756, v753);
-        const v763 = v755[stdlib.checkedBigNumberify('./index.rsh:79:42:application', stdlib.UInt_max, '1')];
-        const v764 = v755[stdlib.checkedBigNumberify('./index.rsh:79:42:application', stdlib.UInt_max, '2')];
-        const v765 = [v760, v763, v764];
-        const v766 = stdlib.Array_set(v739, stdlib.checkedBigNumberify('./index.rsh:79:42:application', stdlib.UInt_max, '0'), v765);
+        const v931 = v915[stdlib.checkedBigNumberify('./index.rsh:87:42:application', stdlib.UInt_max, '0')];
+        const v932 = v931[stdlib.checkedBigNumberify('./index.rsh:87:42:application', stdlib.UInt_max, '0')];
+        const v936 = stdlib.sub(v932, v929);
+        const v939 = v931[stdlib.checkedBigNumberify('./index.rsh:87:42:application', stdlib.UInt_max, '1')];
+        const v940 = v931[stdlib.checkedBigNumberify('./index.rsh:87:42:application', stdlib.UInt_max, '2')];
+        const v941 = [v936, v939, v940];
+        const v942 = stdlib.Array_set(v915, stdlib.checkedBigNumberify('./index.rsh:87:42:application', stdlib.UInt_max, '0'), v941);
         ;
-        const v767 = true;
-        await txn3.getOutput('Schmuck_buy', 'v767', ctc7, v767);
-        const v774 = stdlib.add(v474, stdlib.checkedBigNumberify('./index.rsh:82:72:decimal', stdlib.UInt_max, '1'));
-        const v775 = stdlib.gt(v477, v774);
-        const v776 = v775 ? v477 : v774;
-        const v777 = stdlib.add(v478, v479);
-        const v778 = stdlib.add(v479, stdlib.checkedBigNumberify('./index.rsh:86:97:decimal', stdlib.UInt_max, '1'));
-        const v779 = v775 ? v480 : v778;
-        const v780 = stdlib.div(v777, v774);
-        const v781 = v775 ? v480 : v780;
-        const v782 = stdlib.add(v481, v445);
-        const cv474 = v774;
-        const cv475 = true;
-        const cv477 = v776;
-        const cv478 = v777;
-        const cv479 = v779;
-        const cv480 = v781;
-        const cv481 = v782;
-        const cv482 = v576;
-        const cv488 = v766;
-        const cv489 = v730;
+        const v943 = true;
+        await txn3.getOutput('Schmuck_buy', 'v943', ctc7, v943);
+        const v950 = stdlib.add(v584, stdlib.checkedBigNumberify('./index.rsh:90:73:decimal', stdlib.UInt_max, '1'));
+        const v951 = stdlib.gt(v588, v950);
+        const v952 = v951 ? v588 : v950;
+        const v953 = stdlib.add(v589, v590);
+        const v954 = stdlib.add(v590, v554);
+        const v955 = v951 ? v591 : v954;
+        const v956 = stdlib.div(v953, v950);
+        const v957 = v951 ? v591 : v956;
+        const v958 = stdlib.add(v592, v553);
+        const cv584 = v950;
+        const cv585 = v585;
+        const cv586 = true;
+        const cv587 = v951;
+        const cv588 = v952;
+        const cv589 = v953;
+        const cv590 = v955;
+        const cv591 = v957;
+        const cv592 = v958;
+        const cv593 = v710;
+        const cv599 = v942;
+        const cv600 = v906;
         
-        v474 = cv474;
-        v475 = cv475;
-        v477 = cv477;
-        v478 = cv478;
-        v479 = cv479;
-        v480 = cv480;
-        v481 = cv481;
-        v482 = cv482;
-        v488 = cv488;
-        v489 = cv489;
+        v584 = cv584;
+        v585 = cv585;
+        v586 = cv586;
+        v587 = cv587;
+        v588 = cv588;
+        v589 = cv589;
+        v590 = cv590;
+        v591 = cv591;
+        v592 = cv592;
+        v593 = cv593;
+        v599 = cv599;
+        v600 = cv600;
         
         continue;
         break;
         }
-      case 'Schmuck_sell0_75': {
-        const v814 = v575[1];
+      case 'Schmuck_rebase0_84': {
+        const v1018 = v709[1];
         undefined /* setApiDetails */;
-        const v833 = v814[stdlib.checkedBigNumberify('./index.rsh:99:7:spread', stdlib.UInt_max, '0')];
-        const v848 = stdlib.add(v489, v445);
+        const v1059 = stdlib.add(v600, v553);
         ;
-        const v849 = v488[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0')];
-        const v850 = v849[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0')];
-        const v851 = stdlib.add(v850, v833);
-        const v854 = v849[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '1')];
-        const v855 = v849[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '2')];
-        const v856 = [v851, v854, v855];
-        const v857 = stdlib.Array_set(v488, stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0'), v856);
+        const v1060 = v599[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0')];
+        const v1061 = v1060[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0')];
+        const v1062 = stdlib.add(v1061, stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '1'));
+        const v1065 = v1060[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '1')];
+        const v1066 = v1060[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '2')];
+        const v1067 = [v1062, v1065, v1066];
+        const v1068 = stdlib.Array_set(v599, stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0'), v1067);
         ;
-        const v905 = stdlib.eq(v833, stdlib.checkedBigNumberify('./index.rsh:103:26:decimal', stdlib.UInt_max, '1'));
-        const v906 = v857[stdlib.checkedBigNumberify('./index.rsh:103:38:application', stdlib.UInt_max, '0')];
-        const v907 = v906[stdlib.checkedBigNumberify('./index.rsh:103:38:application', stdlib.UInt_max, '0')];
-        const v908 = stdlib.gt(v907, stdlib.checkedBigNumberify('./index.rsh:103:53:decimal', stdlib.UInt_max, '0'));
-        const v909 = v905 ? v908 : false;
-        const v910 = stdlib.gt(v474, stdlib.checkedBigNumberify('./index.rsh:103:86:decimal', stdlib.UInt_max, '0'));
-        const v911 = v909 ? v910 : false;
-        const v913 = stdlib.gt(v848, v480);
-        const v914 = v911 ? v913 : false;
-        stdlib.assert(v914, {
-          at: './index.rsh:103:14:application',
-          fs: ['at ./index.rsh:102:17:application call to [unknown function] (defined at: ./index.rsh:102:17:function exp)'],
+        const v1115 = stdlib.gt(v593, v585);
+        const v1117 = v1115 ? v587 : false;
+        stdlib.assert(v1117, {
+          at: './index.rsh:141:15:application',
+          fs: ['at ./index.rsh:140:9:application call to [unknown function] (defined at: ./index.rsh:140:9:function exp)'],
           msg: null,
           who: 'Schmeckler'
           });
-        const v918 = stdlib.sub(v848, v480);
+        const v1118 = stdlib.sub(v584, stdlib.checkedBigNumberify('./index.rsh:143:73:decimal', stdlib.UInt_max, '1'));
+        const v1119 = stdlib.add(v1118, stdlib.checkedBigNumberify('./index.rsh:145:93:decimal', stdlib.UInt_max, '1'));
+        const v1120 = stdlib.mul(v1118, v1119);
+        const v1121 = stdlib.div(v1120, stdlib.checkedBigNumberify('./index.rsh:145:98:decimal', stdlib.UInt_max, '2'));
+        const v1122 = stdlib.mul(v1121, v554);
+        const v1123 = stdlib.add(v1118, v554);
+        const v1124 = stdlib.div(v1122, v1118);
+        const v1125 = stdlib.add(v592, v553);
+        const v1126 = stdlib.sub(v589, v1122);
+        const v1130 = stdlib.sub(v1059, v1126);
         ;
-        const v919 = true;
-        await txn3.getOutput('Schmuck_sell', 'v919', ctc7, v919);
-        const v926 = stdlib.sub(v474, stdlib.checkedBigNumberify('./index.rsh:108:72:decimal', stdlib.UInt_max, '1'));
-        const v927 = stdlib.sub(v478, v480);
-        const v928 = stdlib.eq(v926, stdlib.checkedBigNumberify('./index.rsh:110:68:decimal', stdlib.UInt_max, '0'));
-        const v929 = v928 ? v446 : v480;
-        const v930 = stdlib.add(v481, v445);
-        const cv474 = v926;
-        const cv475 = true;
-        const cv477 = v477;
-        const cv478 = v927;
-        const cv479 = v929;
-        const cv480 = v480;
-        const cv481 = v930;
-        const cv482 = v576;
-        const cv488 = v857;
-        const cv489 = v918;
+        const v1131 = true;
+        await txn3.getOutput('Schmuck_rebase', 'v1131', ctc7, v1131);
+        const cv584 = v1118;
+        const cv585 = v585;
+        const cv586 = true;
+        const cv587 = true;
+        const cv588 = v1118;
+        const cv589 = v1122;
+        const cv590 = v1123;
+        const cv591 = v1124;
+        const cv592 = v1125;
+        const cv593 = v710;
+        const cv599 = v1068;
+        const cv600 = v1130;
         
-        v474 = cv474;
-        v475 = cv475;
-        v477 = cv477;
-        v478 = cv478;
-        v479 = cv479;
-        v480 = cv480;
-        v481 = cv481;
-        v482 = cv482;
-        v488 = cv488;
-        v489 = cv489;
+        v584 = cv584;
+        v585 = cv585;
+        v586 = cv586;
+        v587 = cv587;
+        v588 = cv588;
+        v589 = cv589;
+        v590 = cv590;
+        v591 = cv591;
+        v592 = cv592;
+        v593 = cv593;
+        v599 = cv599;
+        v600 = cv600;
+        
+        continue;
+        break;
+        }
+      case 'Schmuck_sell0_84': {
+        const v1171 = v709[1];
+        undefined /* setApiDetails */;
+        const v1197 = v1171[stdlib.checkedBigNumberify('./index.rsh:108:7:spread', stdlib.UInt_max, '0')];
+        const v1212 = stdlib.add(v600, v553);
+        ;
+        const v1213 = v599[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0')];
+        const v1214 = v1213[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0')];
+        const v1215 = stdlib.add(v1214, v1197);
+        const v1218 = v1213[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '1')];
+        const v1219 = v1213[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '2')];
+        const v1220 = [v1215, v1218, v1219];
+        const v1221 = stdlib.Array_set(v599, stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0'), v1220);
+        ;
+        const v1293 = stdlib.eq(v1197, stdlib.checkedBigNumberify('./index.rsh:112:26:decimal', stdlib.UInt_max, '1'));
+        const v1294 = v1221[stdlib.checkedBigNumberify('./index.rsh:112:38:application', stdlib.UInt_max, '0')];
+        const v1295 = v1294[stdlib.checkedBigNumberify('./index.rsh:112:38:application', stdlib.UInt_max, '0')];
+        const v1296 = stdlib.gt(v1295, stdlib.checkedBigNumberify('./index.rsh:112:53:decimal', stdlib.UInt_max, '0'));
+        const v1297 = v1293 ? v1296 : false;
+        const v1298 = stdlib.gt(v584, stdlib.checkedBigNumberify('./index.rsh:112:86:decimal', stdlib.UInt_max, '0'));
+        const v1299 = v1297 ? v1298 : false;
+        const v1301 = stdlib.gt(v1212, v591);
+        const v1302 = v1299 ? v1301 : false;
+        stdlib.assert(v1302, {
+          at: './index.rsh:112:14:application',
+          fs: ['at ./index.rsh:111:17:application call to [unknown function] (defined at: ./index.rsh:111:17:function exp)'],
+          msg: null,
+          who: 'Schmeckler'
+          });
+        const v1306 = stdlib.sub(v1212, v591);
+        ;
+        const v1307 = true;
+        await txn3.getOutput('Schmuck_sell', 'v1307', ctc7, v1307);
+        const v1314 = stdlib.sub(v584, stdlib.checkedBigNumberify('./index.rsh:117:73:decimal', stdlib.UInt_max, '1'));
+        const v1315 = stdlib.eq(v1314, stdlib.checkedBigNumberify('./index.rsh:118:71:decimal', stdlib.UInt_max, '0'));
+        const v1316 = v1315 ? stdlib.checkedBigNumberify('./index.rsh:118:75:decimal', stdlib.UInt_max, '0') : v588;
+        const v1317 = stdlib.sub(v589, v591);
+        const v1319 = v1315 ? v554 : v591;
+        const v1320 = stdlib.add(v592, v553);
+        const v1321 = stdlib.add(v585, v555);
+        const v1322 = v587 ? v585 : v1321;
+        const cv584 = v1314;
+        const cv585 = v1322;
+        const cv586 = true;
+        const cv587 = true;
+        const cv588 = v1316;
+        const cv589 = v1317;
+        const cv590 = v1319;
+        const cv591 = v591;
+        const cv592 = v1320;
+        const cv593 = v710;
+        const cv599 = v1221;
+        const cv600 = v1306;
+        
+        v584 = cv584;
+        v585 = cv585;
+        v586 = cv586;
+        v587 = cv587;
+        v588 = cv588;
+        v589 = cv589;
+        v590 = cv590;
+        v591 = cv591;
+        v592 = cv592;
+        v593 = cv593;
+        v599 = cv599;
+        v600 = cv600;
         
         continue;
         break;
@@ -433,8 +540,8 @@ export async function Schmeckler(ctcTop, interact) {
       }
     
     }
-  const v933 = v488[stdlib.checkedBigNumberify('./index.rsh:138:32:application', stdlib.UInt_max, '0')];
-  const v934 = v933[stdlib.checkedBigNumberify('./index.rsh:138:32:application', stdlib.UInt_max, '0')];
+  const v1326 = v599[stdlib.checkedBigNumberify('./index.rsh:179:32:application', stdlib.UInt_max, '0')];
+  const v1327 = v1326[stdlib.checkedBigNumberify('./index.rsh:179:32:application', stdlib.UInt_max, '0')];
   ;
   ;
   return;
@@ -459,93 +566,98 @@ export async function _SchmecklerAPI_claimFees4(ctcTop, interact) {
   const ctc6 = stdlib.T_Tuple([]);
   const ctc7 = stdlib.T_Tuple([ctc1]);
   const ctc8 = stdlib.T_Data({
-    SchmecklerAPI_claimFees0_75: ctc6,
-    Schmuck_buy0_75: ctc7,
-    Schmuck_sell0_75: ctc7
+    SchmecklerAPI_claimFees0_84: ctc6,
+    Schmuck_buy0_84: ctc7,
+    Schmuck_rebase0_84: ctc6,
+    Schmuck_sell0_84: ctc7
     });
   const ctc9 = stdlib.T_Null;
   
   
-  const [v444, v445, v446, v447, v474, v477, v478, v479, v480, v481, v488, v489] = await ctc.getState(stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '4'), [ctc0, ctc1, ctc1, ctc2, ctc1, ctc1, ctc1, ctc1, ctc1, ctc1, ctc5, ctc1]);
-  const v537 = stdlib.protect(ctc6, await interact.in(), {
+  const [v552, v553, v554, v555, v556, v584, v585, v586, v587, v588, v589, v590, v591, v592, v593, v599, v600] = await ctc.getState(stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '4'), [ctc0, ctc1, ctc1, ctc1, ctc2, ctc1, ctc1, ctc3, ctc3, ctc1, ctc1, ctc1, ctc1, ctc1, ctc1, ctc5, ctc1]);
+  const v661 = stdlib.protect(ctc6, await interact.in(), {
     at: './index.rsh:1:23:application',
-    fs: ['at ./index.rsh:123:7:application call to [unknown function] (defined at: ./index.rsh:123:7:function exp)', 'at ./index.rsh:69:17:application call to "runSchmecklerAPI_claimFees0_75" (defined at: ./index.rsh:123:7:function exp)', 'at ./index.rsh:69:17:application call to [unknown function] (defined at: ./index.rsh:69:17:function exp)'],
+    fs: ['at ./index.rsh:164:7:application call to [unknown function] (defined at: ./index.rsh:164:7:function exp)', 'at ./index.rsh:74:17:application call to "runSchmecklerAPI_claimFees0_84" (defined at: ./index.rsh:164:7:function exp)', 'at ./index.rsh:74:17:application call to [unknown function] (defined at: ./index.rsh:74:17:function exp)'],
     msg: 'in',
     who: 'SchmecklerAPI_claimFees'
     });
-  const v541 = ['SchmecklerAPI_claimFees0_75', v537];
+  const v665 = ['SchmecklerAPI_claimFees0_84', v661];
   
   const txn1 = await (ctc.sendrecv({
-    args: [v444, v445, v446, v447, v474, v477, v478, v479, v480, v481, v488, v489, v541],
+    args: [v552, v553, v554, v555, v556, v584, v585, v586, v587, v588, v589, v590, v591, v592, v593, v599, v600, v665],
     evt_cnt: 1,
     funcNum: 3,
     lct: stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '0'),
     onlyIf: true,
     out_tys: [ctc8],
-    pay: [stdlib.checkedBigNumberify('./index.rsh:123:7:decimal', stdlib.UInt_max, '0'), [[stdlib.checkedBigNumberify('./index.rsh:73:12:decimal', stdlib.UInt_max, '0'), v447]]],
+    pay: [stdlib.checkedBigNumberify('./index.rsh:164:7:decimal', stdlib.UInt_max, '0'), [[stdlib.checkedBigNumberify('./index.rsh:81:12:decimal', stdlib.UInt_max, '0'), v556]]],
     sim_p: (async (txn1) => {
       const sim_r = { txns: [], mapRefs: [], maps: [] };
       let sim_txn_ctr = stdlib.UInt_max;
       const getSimTokCtr = () => { sim_txn_ctr = sim_txn_ctr.sub(1); return sim_txn_ctr; };
       
       
-      const {data: [v575], secs: v577, time: v576, didSend: v254, from: v574 } = txn1;
+      const {data: [v709], secs: v711, time: v710, didSend: v313, from: v708 } = txn1;
       
-      switch (v575[0]) {
-        case 'SchmecklerAPI_claimFees0_75': {
-          const v578 = v575[1];
+      switch (v709[0]) {
+        case 'SchmecklerAPI_claimFees0_84': {
+          const v712 = v709[1];
           sim_r.txns.push({
             kind: 'api',
             who: "SchmecklerAPI_claimFees"
             });
           ;
-          const v613 = v488[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0')];
-          const v614 = v613[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0')];
-          const v618 = v613[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '1')];
-          const v619 = v613[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '2')];
-          const v620 = [v614, v618, v619];
-          const v621 = stdlib.Array_set(v488, stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0'), v620);
+          const v754 = v599[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0')];
+          const v755 = v754[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0')];
+          const v759 = v754[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '1')];
+          const v760 = v754[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '2')];
+          const v761 = [v755, v759, v760];
+          const v762 = stdlib.Array_set(v599, stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0'), v761);
           ;
-          const v626 = stdlib.sub(v489, v481);
+          const v767 = stdlib.sub(v600, v592);
           sim_r.txns.push({
-            amt: v481,
+            amt: v592,
             kind: 'from',
-            to: v444,
+            to: v552,
             tok: undefined /* Nothing */
             });
-          const v627 = true;
-          const v628 = await txn1.getOutput('SchmecklerAPI_claimFees', 'v627', ctc3, v627);
+          const v768 = true;
+          const v769 = await txn1.getOutput('SchmecklerAPI_claimFees', 'v768', ctc3, v768);
           
-          const v1448 = v474;
-          const v1450 = v477;
-          const v1451 = v478;
-          const v1452 = v479;
-          const v1453 = v480;
-          const v1454 = stdlib.checkedBigNumberify('./index.rsh:135:9:decimal', stdlib.UInt_max, '0');
-          const v1456 = v621;
-          const v1457 = v626;
-          const v1458 = v621[stdlib.checkedBigNumberify('./index.rsh:72:30:application', stdlib.UInt_max, '0')];
-          const v1459 = v1458[stdlib.checkedBigNumberify('./index.rsh:72:30:application', stdlib.UInt_max, '0')];
-          const v1460 = stdlib.gt(v1459, stdlib.checkedBigNumberify('./index.rsh:72:45:decimal', stdlib.UInt_max, '0'));
-          if (v1460) {
+          const v2243 = v584;
+          const v2244 = v585;
+          const v2245 = true;
+          const v2246 = v587;
+          const v2247 = v588;
+          const v2248 = v589;
+          const v2249 = v590;
+          const v2250 = v591;
+          const v2251 = stdlib.checkedBigNumberify('./index.rsh:176:9:decimal', stdlib.UInt_max, '0');
+          const v2252 = v710;
+          const v2253 = v762;
+          const v2254 = v767;
+          const v2255 = v762[stdlib.checkedBigNumberify('./index.rsh:80:30:application', stdlib.UInt_max, '0')];
+          const v2256 = v2255[stdlib.checkedBigNumberify('./index.rsh:80:30:application', stdlib.UInt_max, '0')];
+          const v2257 = stdlib.gt(v2256, stdlib.checkedBigNumberify('./index.rsh:80:45:decimal', stdlib.UInt_max, '0'));
+          if (v2257) {
             sim_r.isHalt = false;
             }
           else {
             sim_r.txns.push({
-              amt: v626,
+              amt: v767,
               kind: 'from',
-              to: v444,
+              to: v552,
               tok: undefined /* Nothing */
               });
             sim_r.txns.push({
-              amt: v1459,
+              amt: v2256,
               kind: 'from',
-              to: v444,
-              tok: v447
+              to: v552,
+              tok: v556
               });
             sim_r.txns.push({
               kind: 'halt',
-              tok: v447
+              tok: v556
               })
             sim_r.txns.push({
               kind: 'halt',
@@ -555,13 +667,18 @@ export async function _SchmecklerAPI_claimFees4(ctcTop, interact) {
             }
           break;
           }
-        case 'Schmuck_buy0_75': {
-          const v696 = v575[1];
+        case 'Schmuck_buy0_84': {
+          const v865 = v709[1];
           
           break;
           }
-        case 'Schmuck_sell0_75': {
-          const v814 = v575[1];
+        case 'Schmuck_rebase0_84': {
+          const v1018 = v709[1];
+          
+          break;
+          }
+        case 'Schmuck_sell0_84': {
+          const v1171 = v709[1];
           
           break;
           }
@@ -570,30 +687,30 @@ export async function _SchmecklerAPI_claimFees4(ctcTop, interact) {
       }),
     soloSend: false,
     timeoutAt: undefined /* mto */,
-    tys: [ctc0, ctc1, ctc1, ctc2, ctc1, ctc1, ctc1, ctc1, ctc1, ctc1, ctc5, ctc1, ctc8],
+    tys: [ctc0, ctc1, ctc1, ctc1, ctc2, ctc1, ctc1, ctc3, ctc3, ctc1, ctc1, ctc1, ctc1, ctc1, ctc1, ctc5, ctc1, ctc8],
     waitIfNotPresent: false
     }));
-  const {data: [v575], secs: v577, time: v576, didSend: v254, from: v574 } = txn1;
-  switch (v575[0]) {
-    case 'SchmecklerAPI_claimFees0_75': {
-      const v578 = v575[1];
+  const {data: [v709], secs: v711, time: v710, didSend: v313, from: v708 } = txn1;
+  switch (v709[0]) {
+    case 'SchmecklerAPI_claimFees0_84': {
+      const v712 = v709[1];
       undefined /* setApiDetails */;
       ;
-      const v613 = v488[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0')];
-      const v614 = v613[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0')];
-      const v618 = v613[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '1')];
-      const v619 = v613[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '2')];
-      const v620 = [v614, v618, v619];
-      const v621 = stdlib.Array_set(v488, stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0'), v620);
+      const v754 = v599[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0')];
+      const v755 = v754[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0')];
+      const v759 = v754[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '1')];
+      const v760 = v754[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '2')];
+      const v761 = [v755, v759, v760];
+      const v762 = stdlib.Array_set(v599, stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0'), v761);
       ;
-      const v626 = stdlib.sub(v489, v481);
+      const v767 = stdlib.sub(v600, v592);
       ;
-      const v627 = true;
-      const v628 = await txn1.getOutput('SchmecklerAPI_claimFees', 'v627', ctc3, v627);
-      if (v254) {
-        stdlib.protect(ctc9, await interact.out(v578, v628), {
-          at: './index.rsh:123:8:application',
-          fs: ['at ./index.rsh:123:8:application call to [unknown function] (defined at: ./index.rsh:123:8:function exp)', 'at ./index.rsh:126:8:application call to "k" (defined at: ./index.rsh:124:9:function exp)', 'at ./index.rsh:124:9:application call to [unknown function] (defined at: ./index.rsh:124:9:function exp)'],
+      const v768 = true;
+      const v769 = await txn1.getOutput('SchmecklerAPI_claimFees', 'v768', ctc3, v768);
+      if (v313) {
+        stdlib.protect(ctc9, await interact.out(v712, v769), {
+          at: './index.rsh:164:8:application',
+          fs: ['at ./index.rsh:164:8:application call to [unknown function] (defined at: ./index.rsh:164:8:function exp)', 'at ./index.rsh:167:8:application call to "k" (defined at: ./index.rsh:165:9:function exp)', 'at ./index.rsh:165:9:application call to [unknown function] (defined at: ./index.rsh:165:9:function exp)'],
           msg: 'out',
           who: 'SchmecklerAPI_claimFees'
           });
@@ -601,18 +718,22 @@ export async function _SchmecklerAPI_claimFees4(ctcTop, interact) {
       else {
         }
       
-      const v1448 = v474;
-      const v1450 = v477;
-      const v1451 = v478;
-      const v1452 = v479;
-      const v1453 = v480;
-      const v1454 = stdlib.checkedBigNumberify('./index.rsh:135:9:decimal', stdlib.UInt_max, '0');
-      const v1456 = v621;
-      const v1457 = v626;
-      const v1458 = v621[stdlib.checkedBigNumberify('./index.rsh:72:30:application', stdlib.UInt_max, '0')];
-      const v1459 = v1458[stdlib.checkedBigNumberify('./index.rsh:72:30:application', stdlib.UInt_max, '0')];
-      const v1460 = stdlib.gt(v1459, stdlib.checkedBigNumberify('./index.rsh:72:45:decimal', stdlib.UInt_max, '0'));
-      if (v1460) {
+      const v2243 = v584;
+      const v2244 = v585;
+      const v2245 = true;
+      const v2246 = v587;
+      const v2247 = v588;
+      const v2248 = v589;
+      const v2249 = v590;
+      const v2250 = v591;
+      const v2251 = stdlib.checkedBigNumberify('./index.rsh:176:9:decimal', stdlib.UInt_max, '0');
+      const v2252 = v710;
+      const v2253 = v762;
+      const v2254 = v767;
+      const v2255 = v762[stdlib.checkedBigNumberify('./index.rsh:80:30:application', stdlib.UInt_max, '0')];
+      const v2256 = v2255[stdlib.checkedBigNumberify('./index.rsh:80:30:application', stdlib.UInt_max, '0')];
+      const v2257 = stdlib.gt(v2256, stdlib.checkedBigNumberify('./index.rsh:80:45:decimal', stdlib.UInt_max, '0'));
+      if (v2257) {
         return;
         }
       else {
@@ -622,13 +743,18 @@ export async function _SchmecklerAPI_claimFees4(ctcTop, interact) {
         }
       break;
       }
-    case 'Schmuck_buy0_75': {
-      const v696 = v575[1];
+    case 'Schmuck_buy0_84': {
+      const v865 = v709[1];
       return;
       break;
       }
-    case 'Schmuck_sell0_75': {
-      const v814 = v575[1];
+    case 'Schmuck_rebase0_84': {
+      const v1018 = v709[1];
+      return;
+      break;
+      }
+    case 'Schmuck_sell0_84': {
+      const v1171 = v709[1];
       return;
       break;
       }
@@ -652,132 +778,137 @@ export async function _Schmuck_buy4(ctcTop, interact) {
   const ctc6 = stdlib.T_Tuple([ctc1]);
   const ctc7 = stdlib.T_Tuple([]);
   const ctc8 = stdlib.T_Data({
-    SchmecklerAPI_claimFees0_75: ctc7,
-    Schmuck_buy0_75: ctc6,
-    Schmuck_sell0_75: ctc6
+    SchmecklerAPI_claimFees0_84: ctc7,
+    Schmuck_buy0_84: ctc6,
+    Schmuck_rebase0_84: ctc7,
+    Schmuck_sell0_84: ctc6
     });
   const ctc9 = stdlib.T_Null;
   
   
-  const [v444, v445, v446, v447, v474, v477, v478, v479, v480, v481, v488, v489] = await ctc.getState(stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '4'), [ctc0, ctc1, ctc1, ctc2, ctc1, ctc1, ctc1, ctc1, ctc1, ctc1, ctc5, ctc1]);
-  const v504 = stdlib.protect(ctc6, await interact.in(), {
+  const [v552, v553, v554, v555, v556, v584, v585, v586, v587, v588, v589, v590, v591, v592, v593, v599, v600] = await ctc.getState(stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '4'), [ctc0, ctc1, ctc1, ctc1, ctc2, ctc1, ctc1, ctc3, ctc3, ctc1, ctc1, ctc1, ctc1, ctc1, ctc1, ctc5, ctc1]);
+  const v616 = stdlib.protect(ctc6, await interact.in(), {
     at: './index.rsh:1:23:application',
-    fs: ['at ./index.rsh:75:14:application call to [unknown function] (defined at: ./index.rsh:75:14:function exp)', 'at ./index.rsh:69:17:application call to "runSchmuck_buy0_75" (defined at: ./index.rsh:74:7:function exp)', 'at ./index.rsh:69:17:application call to [unknown function] (defined at: ./index.rsh:69:17:function exp)'],
+    fs: ['at ./index.rsh:83:14:application call to [unknown function] (defined at: ./index.rsh:83:14:function exp)', 'at ./index.rsh:74:17:application call to "runSchmuck_buy0_84" (defined at: ./index.rsh:82:7:function exp)', 'at ./index.rsh:74:17:application call to [unknown function] (defined at: ./index.rsh:74:17:function exp)'],
     msg: 'in',
     who: 'Schmuck_buy'
     });
-  const v505 = v504[stdlib.checkedBigNumberify('./index.rsh:1:23:application', stdlib.UInt_max, '0')];
-  const v508 = stdlib.eq(v505, stdlib.checkedBigNumberify('./index.rsh:75:35:decimal', stdlib.UInt_max, '1'));
-  stdlib.assert(v508, {
-    at: './index.rsh:75:24:application',
-    fs: ['at ./index.rsh:75:14:application call to [unknown function] (defined at: ./index.rsh:75:14:function exp)', 'at ./index.rsh:75:14:application call to [unknown function] (defined at: ./index.rsh:75:14:function exp)', 'at ./index.rsh:69:17:application call to "runSchmuck_buy0_75" (defined at: ./index.rsh:74:7:function exp)', 'at ./index.rsh:69:17:application call to [unknown function] (defined at: ./index.rsh:69:17:function exp)'],
+  const v617 = v616[stdlib.checkedBigNumberify('./index.rsh:1:23:application', stdlib.UInt_max, '0')];
+  const v620 = stdlib.eq(v617, stdlib.checkedBigNumberify('./index.rsh:83:35:decimal', stdlib.UInt_max, '1'));
+  stdlib.assert(v620, {
+    at: './index.rsh:83:24:application',
+    fs: ['at ./index.rsh:83:14:application call to [unknown function] (defined at: ./index.rsh:83:14:function exp)', 'at ./index.rsh:83:14:application call to [unknown function] (defined at: ./index.rsh:83:14:function exp)', 'at ./index.rsh:74:17:application call to "runSchmuck_buy0_84" (defined at: ./index.rsh:82:7:function exp)', 'at ./index.rsh:74:17:application call to [unknown function] (defined at: ./index.rsh:74:17:function exp)'],
     msg: null,
     who: 'Schmuck_buy'
     });
-  const v512 = ['Schmuck_buy0_75', v504];
+  const v624 = ['Schmuck_buy0_84', v616];
   
-  const v553 = stdlib.add(v445, v479);
+  const v677 = stdlib.add(v553, v590);
   
   const txn1 = await (ctc.sendrecv({
-    args: [v444, v445, v446, v447, v474, v477, v478, v479, v480, v481, v488, v489, v512],
+    args: [v552, v553, v554, v555, v556, v584, v585, v586, v587, v588, v589, v590, v591, v592, v593, v599, v600, v624],
     evt_cnt: 1,
     funcNum: 3,
     lct: stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '0'),
     onlyIf: true,
     out_tys: [ctc8],
-    pay: [v553, [[stdlib.checkedBigNumberify('./index.rsh:76:41:decimal', stdlib.UInt_max, '0'), v447]]],
+    pay: [v677, [[stdlib.checkedBigNumberify('./index.rsh:84:41:decimal', stdlib.UInt_max, '0'), v556]]],
     sim_p: (async (txn1) => {
       const sim_r = { txns: [], mapRefs: [], maps: [] };
       let sim_txn_ctr = stdlib.UInt_max;
       const getSimTokCtr = () => { sim_txn_ctr = sim_txn_ctr.sub(1); return sim_txn_ctr; };
       
       
-      const {data: [v575], secs: v577, time: v576, didSend: v254, from: v574 } = txn1;
+      const {data: [v709], secs: v711, time: v710, didSend: v313, from: v708 } = txn1;
       
-      switch (v575[0]) {
-        case 'SchmecklerAPI_claimFees0_75': {
-          const v578 = v575[1];
+      switch (v709[0]) {
+        case 'SchmecklerAPI_claimFees0_84': {
+          const v712 = v709[1];
           
           break;
           }
-        case 'Schmuck_buy0_75': {
-          const v696 = v575[1];
+        case 'Schmuck_buy0_84': {
+          const v865 = v709[1];
           sim_r.txns.push({
             kind: 'api',
             who: "Schmuck_buy"
             });
-          const v707 = stdlib.add(v445, v479);
-          const v730 = stdlib.add(v489, v707);
+          const v876 = stdlib.add(v553, v590);
+          const v906 = stdlib.add(v600, v876);
           sim_r.txns.push({
-            amt: v707,
+            amt: v876,
             kind: 'to',
             tok: undefined /* Nothing */
             });
-          const v731 = v488[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0')];
-          const v732 = v731[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0')];
-          const v736 = v731[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '1')];
-          const v737 = v731[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '2')];
-          const v738 = [v732, v736, v737];
-          const v739 = stdlib.Array_set(v488, stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0'), v738);
+          const v907 = v599[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0')];
+          const v908 = v907[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0')];
+          const v912 = v907[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '1')];
+          const v913 = v907[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '2')];
+          const v914 = [v908, v912, v913];
+          const v915 = stdlib.Array_set(v599, stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0'), v914);
           ;
-          const v753 = v696[stdlib.checkedBigNumberify('./index.rsh:74:7:spread', stdlib.UInt_max, '0')];
-          const v754 = stdlib.eq(v753, stdlib.checkedBigNumberify('./index.rsh:78:26:decimal', stdlib.UInt_max, '1'));
+          const v929 = v865[stdlib.checkedBigNumberify('./index.rsh:82:7:spread', stdlib.UInt_max, '0')];
+          const v930 = stdlib.eq(v929, stdlib.checkedBigNumberify('./index.rsh:86:26:decimal', stdlib.UInt_max, '1'));
           ;
-          const v755 = v739[stdlib.checkedBigNumberify('./index.rsh:79:42:application', stdlib.UInt_max, '0')];
-          const v756 = v755[stdlib.checkedBigNumberify('./index.rsh:79:42:application', stdlib.UInt_max, '0')];
-          const v760 = stdlib.sub(v756, v753);
-          const v763 = v755[stdlib.checkedBigNumberify('./index.rsh:79:42:application', stdlib.UInt_max, '1')];
-          const v764 = v755[stdlib.checkedBigNumberify('./index.rsh:79:42:application', stdlib.UInt_max, '2')];
-          const v765 = [v760, v763, v764];
-          const v766 = stdlib.Array_set(v739, stdlib.checkedBigNumberify('./index.rsh:79:42:application', stdlib.UInt_max, '0'), v765);
+          const v931 = v915[stdlib.checkedBigNumberify('./index.rsh:87:42:application', stdlib.UInt_max, '0')];
+          const v932 = v931[stdlib.checkedBigNumberify('./index.rsh:87:42:application', stdlib.UInt_max, '0')];
+          const v936 = stdlib.sub(v932, v929);
+          const v939 = v931[stdlib.checkedBigNumberify('./index.rsh:87:42:application', stdlib.UInt_max, '1')];
+          const v940 = v931[stdlib.checkedBigNumberify('./index.rsh:87:42:application', stdlib.UInt_max, '2')];
+          const v941 = [v936, v939, v940];
+          const v942 = stdlib.Array_set(v915, stdlib.checkedBigNumberify('./index.rsh:87:42:application', stdlib.UInt_max, '0'), v941);
           sim_r.txns.push({
-            amt: v753,
+            amt: v929,
             kind: 'from',
-            to: v574,
-            tok: v447
+            to: v708,
+            tok: v556
             });
-          const v767 = true;
-          const v768 = await txn1.getOutput('Schmuck_buy', 'v767', ctc3, v767);
+          const v943 = true;
+          const v944 = await txn1.getOutput('Schmuck_buy', 'v943', ctc3, v943);
           
-          const v774 = stdlib.add(v474, stdlib.checkedBigNumberify('./index.rsh:82:72:decimal', stdlib.UInt_max, '1'));
-          const v775 = stdlib.gt(v477, v774);
-          const v776 = v775 ? v477 : v774;
-          const v777 = stdlib.add(v478, v479);
-          const v778 = stdlib.add(v479, stdlib.checkedBigNumberify('./index.rsh:86:97:decimal', stdlib.UInt_max, '1'));
-          const v779 = v775 ? v480 : v778;
-          const v780 = stdlib.div(v777, v774);
-          const v781 = v775 ? v480 : v780;
-          const v782 = stdlib.add(v481, v445);
-          const v1512 = v774;
-          const v1514 = v776;
-          const v1515 = v777;
-          const v1516 = v779;
-          const v1517 = v781;
-          const v1518 = v782;
-          const v1520 = v766;
-          const v1521 = v730;
-          const v1522 = v766[stdlib.checkedBigNumberify('./index.rsh:72:30:application', stdlib.UInt_max, '0')];
-          const v1523 = v1522[stdlib.checkedBigNumberify('./index.rsh:72:30:application', stdlib.UInt_max, '0')];
-          const v1524 = stdlib.gt(v1523, stdlib.checkedBigNumberify('./index.rsh:72:45:decimal', stdlib.UInt_max, '0'));
-          if (v1524) {
+          const v950 = stdlib.add(v584, stdlib.checkedBigNumberify('./index.rsh:90:73:decimal', stdlib.UInt_max, '1'));
+          const v951 = stdlib.gt(v588, v950);
+          const v952 = v951 ? v588 : v950;
+          const v953 = stdlib.add(v589, v590);
+          const v954 = stdlib.add(v590, v554);
+          const v955 = v951 ? v591 : v954;
+          const v956 = stdlib.div(v953, v950);
+          const v957 = v951 ? v591 : v956;
+          const v958 = stdlib.add(v592, v553);
+          const v2333 = v950;
+          const v2334 = v585;
+          const v2335 = true;
+          const v2336 = v951;
+          const v2337 = v952;
+          const v2338 = v953;
+          const v2339 = v955;
+          const v2340 = v957;
+          const v2341 = v958;
+          const v2342 = v710;
+          const v2343 = v942;
+          const v2344 = v906;
+          const v2345 = v942[stdlib.checkedBigNumberify('./index.rsh:80:30:application', stdlib.UInt_max, '0')];
+          const v2346 = v2345[stdlib.checkedBigNumberify('./index.rsh:80:30:application', stdlib.UInt_max, '0')];
+          const v2347 = stdlib.gt(v2346, stdlib.checkedBigNumberify('./index.rsh:80:45:decimal', stdlib.UInt_max, '0'));
+          if (v2347) {
             sim_r.isHalt = false;
             }
           else {
             sim_r.txns.push({
-              amt: v730,
+              amt: v906,
               kind: 'from',
-              to: v444,
+              to: v552,
               tok: undefined /* Nothing */
               });
             sim_r.txns.push({
-              amt: v1523,
+              amt: v2346,
               kind: 'from',
-              to: v444,
-              tok: v447
+              to: v552,
+              tok: v556
               });
             sim_r.txns.push({
               kind: 'halt',
-              tok: v447
+              tok: v556
               })
             sim_r.txns.push({
               kind: 'halt',
@@ -787,8 +918,13 @@ export async function _Schmuck_buy4(ctcTop, interact) {
             }
           break;
           }
-        case 'Schmuck_sell0_75': {
-          const v814 = v575[1];
+        case 'Schmuck_rebase0_84': {
+          const v1018 = v709[1];
+          
+          break;
+          }
+        case 'Schmuck_sell0_84': {
+          const v1171 = v709[1];
           
           break;
           }
@@ -797,51 +933,51 @@ export async function _Schmuck_buy4(ctcTop, interact) {
       }),
     soloSend: false,
     timeoutAt: undefined /* mto */,
-    tys: [ctc0, ctc1, ctc1, ctc2, ctc1, ctc1, ctc1, ctc1, ctc1, ctc1, ctc5, ctc1, ctc8],
+    tys: [ctc0, ctc1, ctc1, ctc1, ctc2, ctc1, ctc1, ctc3, ctc3, ctc1, ctc1, ctc1, ctc1, ctc1, ctc1, ctc5, ctc1, ctc8],
     waitIfNotPresent: false
     }));
-  const {data: [v575], secs: v577, time: v576, didSend: v254, from: v574 } = txn1;
-  switch (v575[0]) {
-    case 'SchmecklerAPI_claimFees0_75': {
-      const v578 = v575[1];
+  const {data: [v709], secs: v711, time: v710, didSend: v313, from: v708 } = txn1;
+  switch (v709[0]) {
+    case 'SchmecklerAPI_claimFees0_84': {
+      const v712 = v709[1];
       return;
       break;
       }
-    case 'Schmuck_buy0_75': {
-      const v696 = v575[1];
+    case 'Schmuck_buy0_84': {
+      const v865 = v709[1];
       undefined /* setApiDetails */;
-      const v707 = stdlib.add(v445, v479);
-      const v730 = stdlib.add(v489, v707);
+      const v876 = stdlib.add(v553, v590);
+      const v906 = stdlib.add(v600, v876);
       ;
-      const v731 = v488[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0')];
-      const v732 = v731[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0')];
-      const v736 = v731[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '1')];
-      const v737 = v731[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '2')];
-      const v738 = [v732, v736, v737];
-      const v739 = stdlib.Array_set(v488, stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0'), v738);
+      const v907 = v599[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0')];
+      const v908 = v907[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0')];
+      const v912 = v907[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '1')];
+      const v913 = v907[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '2')];
+      const v914 = [v908, v912, v913];
+      const v915 = stdlib.Array_set(v599, stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0'), v914);
       ;
-      const v753 = v696[stdlib.checkedBigNumberify('./index.rsh:74:7:spread', stdlib.UInt_max, '0')];
-      const v754 = stdlib.eq(v753, stdlib.checkedBigNumberify('./index.rsh:78:26:decimal', stdlib.UInt_max, '1'));
-      stdlib.assert(v754, {
-        at: './index.rsh:78:15:application',
-        fs: ['at ./index.rsh:77:17:application call to [unknown function] (defined at: ./index.rsh:77:17:function exp)'],
+      const v929 = v865[stdlib.checkedBigNumberify('./index.rsh:82:7:spread', stdlib.UInt_max, '0')];
+      const v930 = stdlib.eq(v929, stdlib.checkedBigNumberify('./index.rsh:86:26:decimal', stdlib.UInt_max, '1'));
+      stdlib.assert(v930, {
+        at: './index.rsh:86:15:application',
+        fs: ['at ./index.rsh:85:17:application call to [unknown function] (defined at: ./index.rsh:85:17:function exp)'],
         msg: null,
         who: 'Schmuck_buy'
         });
-      const v755 = v739[stdlib.checkedBigNumberify('./index.rsh:79:42:application', stdlib.UInt_max, '0')];
-      const v756 = v755[stdlib.checkedBigNumberify('./index.rsh:79:42:application', stdlib.UInt_max, '0')];
-      const v760 = stdlib.sub(v756, v753);
-      const v763 = v755[stdlib.checkedBigNumberify('./index.rsh:79:42:application', stdlib.UInt_max, '1')];
-      const v764 = v755[stdlib.checkedBigNumberify('./index.rsh:79:42:application', stdlib.UInt_max, '2')];
-      const v765 = [v760, v763, v764];
-      const v766 = stdlib.Array_set(v739, stdlib.checkedBigNumberify('./index.rsh:79:42:application', stdlib.UInt_max, '0'), v765);
+      const v931 = v915[stdlib.checkedBigNumberify('./index.rsh:87:42:application', stdlib.UInt_max, '0')];
+      const v932 = v931[stdlib.checkedBigNumberify('./index.rsh:87:42:application', stdlib.UInt_max, '0')];
+      const v936 = stdlib.sub(v932, v929);
+      const v939 = v931[stdlib.checkedBigNumberify('./index.rsh:87:42:application', stdlib.UInt_max, '1')];
+      const v940 = v931[stdlib.checkedBigNumberify('./index.rsh:87:42:application', stdlib.UInt_max, '2')];
+      const v941 = [v936, v939, v940];
+      const v942 = stdlib.Array_set(v915, stdlib.checkedBigNumberify('./index.rsh:87:42:application', stdlib.UInt_max, '0'), v941);
       ;
-      const v767 = true;
-      const v768 = await txn1.getOutput('Schmuck_buy', 'v767', ctc3, v767);
-      if (v254) {
-        stdlib.protect(ctc9, await interact.out(v696, v768), {
-          at: './index.rsh:74:8:application',
-          fs: ['at ./index.rsh:74:8:application call to [unknown function] (defined at: ./index.rsh:74:8:function exp)', 'at ./index.rsh:80:8:application call to "k" (defined at: ./index.rsh:77:17:function exp)', 'at ./index.rsh:77:17:application call to [unknown function] (defined at: ./index.rsh:77:17:function exp)'],
+      const v943 = true;
+      const v944 = await txn1.getOutput('Schmuck_buy', 'v943', ctc3, v943);
+      if (v313) {
+        stdlib.protect(ctc9, await interact.out(v865, v944), {
+          at: './index.rsh:82:8:application',
+          fs: ['at ./index.rsh:82:8:application call to [unknown function] (defined at: ./index.rsh:82:8:function exp)', 'at ./index.rsh:88:8:application call to "k" (defined at: ./index.rsh:85:17:function exp)', 'at ./index.rsh:85:17:application call to [unknown function] (defined at: ./index.rsh:85:17:function exp)'],
           msg: 'out',
           who: 'Schmuck_buy'
           });
@@ -849,27 +985,31 @@ export async function _Schmuck_buy4(ctcTop, interact) {
       else {
         }
       
-      const v774 = stdlib.add(v474, stdlib.checkedBigNumberify('./index.rsh:82:72:decimal', stdlib.UInt_max, '1'));
-      const v775 = stdlib.gt(v477, v774);
-      const v776 = v775 ? v477 : v774;
-      const v777 = stdlib.add(v478, v479);
-      const v778 = stdlib.add(v479, stdlib.checkedBigNumberify('./index.rsh:86:97:decimal', stdlib.UInt_max, '1'));
-      const v779 = v775 ? v480 : v778;
-      const v780 = stdlib.div(v777, v774);
-      const v781 = v775 ? v480 : v780;
-      const v782 = stdlib.add(v481, v445);
-      const v1512 = v774;
-      const v1514 = v776;
-      const v1515 = v777;
-      const v1516 = v779;
-      const v1517 = v781;
-      const v1518 = v782;
-      const v1520 = v766;
-      const v1521 = v730;
-      const v1522 = v766[stdlib.checkedBigNumberify('./index.rsh:72:30:application', stdlib.UInt_max, '0')];
-      const v1523 = v1522[stdlib.checkedBigNumberify('./index.rsh:72:30:application', stdlib.UInt_max, '0')];
-      const v1524 = stdlib.gt(v1523, stdlib.checkedBigNumberify('./index.rsh:72:45:decimal', stdlib.UInt_max, '0'));
-      if (v1524) {
+      const v950 = stdlib.add(v584, stdlib.checkedBigNumberify('./index.rsh:90:73:decimal', stdlib.UInt_max, '1'));
+      const v951 = stdlib.gt(v588, v950);
+      const v952 = v951 ? v588 : v950;
+      const v953 = stdlib.add(v589, v590);
+      const v954 = stdlib.add(v590, v554);
+      const v955 = v951 ? v591 : v954;
+      const v956 = stdlib.div(v953, v950);
+      const v957 = v951 ? v591 : v956;
+      const v958 = stdlib.add(v592, v553);
+      const v2333 = v950;
+      const v2334 = v585;
+      const v2335 = true;
+      const v2336 = v951;
+      const v2337 = v952;
+      const v2338 = v953;
+      const v2339 = v955;
+      const v2340 = v957;
+      const v2341 = v958;
+      const v2342 = v710;
+      const v2343 = v942;
+      const v2344 = v906;
+      const v2345 = v942[stdlib.checkedBigNumberify('./index.rsh:80:30:application', stdlib.UInt_max, '0')];
+      const v2346 = v2345[stdlib.checkedBigNumberify('./index.rsh:80:30:application', stdlib.UInt_max, '0')];
+      const v2347 = stdlib.gt(v2346, stdlib.checkedBigNumberify('./index.rsh:80:45:decimal', stdlib.UInt_max, '0'));
+      if (v2347) {
         return;
         }
       else {
@@ -879,8 +1019,274 @@ export async function _Schmuck_buy4(ctcTop, interact) {
         }
       break;
       }
-    case 'Schmuck_sell0_75': {
-      const v814 = v575[1];
+    case 'Schmuck_rebase0_84': {
+      const v1018 = v709[1];
+      return;
+      break;
+      }
+    case 'Schmuck_sell0_84': {
+      const v1171 = v709[1];
+      return;
+      break;
+      }
+    }
+  
+  
+  };
+export async function _Schmuck_rebase4(ctcTop, interact) {
+  if (typeof(ctcTop) !== 'object' || ctcTop._initialize === undefined) {
+    return Promise.reject(new Error(`The backend for _Schmuck_rebase4 expects to receive a contract as its first argument.`));}
+  if (typeof(interact) !== 'object') {
+    return Promise.reject(new Error(`The backend for _Schmuck_rebase4 expects to receive an interact object as its second argument.`));}
+  const ctc = ctcTop._initialize();
+  const stdlib = ctc.stdlib;
+  const ctc0 = stdlib.T_Address;
+  const ctc1 = stdlib.T_UInt;
+  const ctc2 = stdlib.T_Token;
+  const ctc3 = stdlib.T_Bool;
+  const ctc4 = stdlib.T_Tuple([ctc1, ctc1, ctc3]);
+  const ctc5 = stdlib.T_Array(ctc4, stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '1'));
+  const ctc6 = stdlib.T_Tuple([]);
+  const ctc7 = stdlib.T_Tuple([ctc1]);
+  const ctc8 = stdlib.T_Data({
+    SchmecklerAPI_claimFees0_84: ctc6,
+    Schmuck_buy0_84: ctc7,
+    Schmuck_rebase0_84: ctc6,
+    Schmuck_sell0_84: ctc7
+    });
+  const ctc9 = stdlib.T_Null;
+  
+  
+  const [v552, v553, v554, v555, v556, v584, v585, v586, v587, v588, v589, v590, v591, v592, v593, v599, v600] = await ctc.getState(stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '4'), [ctc0, ctc1, ctc1, ctc1, ctc2, ctc1, ctc1, ctc3, ctc3, ctc1, ctc1, ctc1, ctc1, ctc1, ctc1, ctc5, ctc1]);
+  const v649 = stdlib.protect(ctc6, await interact.in(), {
+    at: './index.rsh:1:23:application',
+    fs: ['at ./index.rsh:138:8:application call to [unknown function] (defined at: ./index.rsh:138:8:function exp)', 'at ./index.rsh:74:17:application call to "runSchmuck_rebase0_84" (defined at: ./index.rsh:137:7:function exp)', 'at ./index.rsh:74:17:application call to [unknown function] (defined at: ./index.rsh:74:17:function exp)'],
+    msg: 'in',
+    who: 'Schmuck_rebase'
+    });
+  const v652 = stdlib.gt(v593, v585);
+  const v654 = v652 ? v587 : false;
+  stdlib.assert(v654, {
+    at: './index.rsh:138:19:application',
+    fs: ['at ./index.rsh:138:8:application call to [unknown function] (defined at: ./index.rsh:138:8:function exp)', 'at ./index.rsh:138:8:application call to [unknown function] (defined at: ./index.rsh:138:8:function exp)', 'at ./index.rsh:74:17:application call to "runSchmuck_rebase0_84" (defined at: ./index.rsh:137:7:function exp)', 'at ./index.rsh:74:17:application call to [unknown function] (defined at: ./index.rsh:74:17:function exp)'],
+    msg: null,
+    who: 'Schmuck_rebase'
+    });
+  const v657 = ['Schmuck_rebase0_84', v649];
+  
+  const txn1 = await (ctc.sendrecv({
+    args: [v552, v553, v554, v555, v556, v584, v585, v586, v587, v588, v589, v590, v591, v592, v593, v599, v600, v657],
+    evt_cnt: 1,
+    funcNum: 3,
+    lct: stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '0'),
+    onlyIf: true,
+    out_tys: [ctc8],
+    pay: [v553, [[stdlib.checkedBigNumberify('./index.rsh:139:18:decimal', stdlib.UInt_max, '1'), v556]]],
+    sim_p: (async (txn1) => {
+      const sim_r = { txns: [], mapRefs: [], maps: [] };
+      let sim_txn_ctr = stdlib.UInt_max;
+      const getSimTokCtr = () => { sim_txn_ctr = sim_txn_ctr.sub(1); return sim_txn_ctr; };
+      
+      
+      const {data: [v709], secs: v711, time: v710, didSend: v313, from: v708 } = txn1;
+      
+      switch (v709[0]) {
+        case 'SchmecklerAPI_claimFees0_84': {
+          const v712 = v709[1];
+          
+          break;
+          }
+        case 'Schmuck_buy0_84': {
+          const v865 = v709[1];
+          
+          break;
+          }
+        case 'Schmuck_rebase0_84': {
+          const v1018 = v709[1];
+          sim_r.txns.push({
+            kind: 'api',
+            who: "Schmuck_rebase"
+            });
+          const v1059 = stdlib.add(v600, v553);
+          sim_r.txns.push({
+            amt: v553,
+            kind: 'to',
+            tok: undefined /* Nothing */
+            });
+          const v1060 = v599[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0')];
+          const v1061 = v1060[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0')];
+          const v1062 = stdlib.add(v1061, stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '1'));
+          const v1065 = v1060[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '1')];
+          const v1066 = v1060[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '2')];
+          const v1067 = [v1062, v1065, v1066];
+          const v1068 = stdlib.Array_set(v599, stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0'), v1067);
+          sim_r.txns.push({
+            amt: stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '1'),
+            kind: 'to',
+            tok: v556
+            });
+          const v1115 = stdlib.gt(v593, v585);
+          const v1117 = v1115 ? v587 : false;
+          ;
+          const v1118 = stdlib.sub(v584, stdlib.checkedBigNumberify('./index.rsh:143:73:decimal', stdlib.UInt_max, '1'));
+          const v1119 = stdlib.add(v1118, stdlib.checkedBigNumberify('./index.rsh:145:93:decimal', stdlib.UInt_max, '1'));
+          const v1120 = stdlib.mul(v1118, v1119);
+          const v1121 = stdlib.div(v1120, stdlib.checkedBigNumberify('./index.rsh:145:98:decimal', stdlib.UInt_max, '2'));
+          const v1122 = stdlib.mul(v1121, v554);
+          const v1123 = stdlib.add(v1118, v554);
+          const v1124 = stdlib.div(v1122, v1118);
+          const v1125 = stdlib.add(v592, v553);
+          const v1126 = stdlib.sub(v589, v1122);
+          const v1130 = stdlib.sub(v1059, v1126);
+          sim_r.txns.push({
+            amt: v1126,
+            kind: 'from',
+            to: v708,
+            tok: undefined /* Nothing */
+            });
+          const v1131 = true;
+          const v1132 = await txn1.getOutput('Schmuck_rebase', 'v1131', ctc3, v1131);
+          
+          const v2423 = v1118;
+          const v2424 = v585;
+          const v2425 = true;
+          const v2426 = true;
+          const v2427 = v1118;
+          const v2428 = v1122;
+          const v2429 = v1123;
+          const v2430 = v1124;
+          const v2431 = v1125;
+          const v2432 = v710;
+          const v2433 = v1068;
+          const v2434 = v1130;
+          const v2435 = v1068[stdlib.checkedBigNumberify('./index.rsh:80:30:application', stdlib.UInt_max, '0')];
+          const v2436 = v2435[stdlib.checkedBigNumberify('./index.rsh:80:30:application', stdlib.UInt_max, '0')];
+          const v2437 = stdlib.gt(v2436, stdlib.checkedBigNumberify('./index.rsh:80:45:decimal', stdlib.UInt_max, '0'));
+          if (v2437) {
+            sim_r.isHalt = false;
+            }
+          else {
+            sim_r.txns.push({
+              amt: v1130,
+              kind: 'from',
+              to: v552,
+              tok: undefined /* Nothing */
+              });
+            sim_r.txns.push({
+              amt: v2436,
+              kind: 'from',
+              to: v552,
+              tok: v556
+              });
+            sim_r.txns.push({
+              kind: 'halt',
+              tok: v556
+              })
+            sim_r.txns.push({
+              kind: 'halt',
+              tok: undefined /* Nothing */
+              })
+            sim_r.isHalt = true;
+            }
+          break;
+          }
+        case 'Schmuck_sell0_84': {
+          const v1171 = v709[1];
+          
+          break;
+          }
+        }
+      return sim_r;
+      }),
+    soloSend: false,
+    timeoutAt: undefined /* mto */,
+    tys: [ctc0, ctc1, ctc1, ctc1, ctc2, ctc1, ctc1, ctc3, ctc3, ctc1, ctc1, ctc1, ctc1, ctc1, ctc1, ctc5, ctc1, ctc8],
+    waitIfNotPresent: false
+    }));
+  const {data: [v709], secs: v711, time: v710, didSend: v313, from: v708 } = txn1;
+  switch (v709[0]) {
+    case 'SchmecklerAPI_claimFees0_84': {
+      const v712 = v709[1];
+      return;
+      break;
+      }
+    case 'Schmuck_buy0_84': {
+      const v865 = v709[1];
+      return;
+      break;
+      }
+    case 'Schmuck_rebase0_84': {
+      const v1018 = v709[1];
+      undefined /* setApiDetails */;
+      const v1059 = stdlib.add(v600, v553);
+      ;
+      const v1060 = v599[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0')];
+      const v1061 = v1060[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0')];
+      const v1062 = stdlib.add(v1061, stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '1'));
+      const v1065 = v1060[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '1')];
+      const v1066 = v1060[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '2')];
+      const v1067 = [v1062, v1065, v1066];
+      const v1068 = stdlib.Array_set(v599, stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0'), v1067);
+      ;
+      const v1115 = stdlib.gt(v593, v585);
+      const v1117 = v1115 ? v587 : false;
+      stdlib.assert(v1117, {
+        at: './index.rsh:141:15:application',
+        fs: ['at ./index.rsh:140:9:application call to [unknown function] (defined at: ./index.rsh:140:9:function exp)'],
+        msg: null,
+        who: 'Schmuck_rebase'
+        });
+      const v1118 = stdlib.sub(v584, stdlib.checkedBigNumberify('./index.rsh:143:73:decimal', stdlib.UInt_max, '1'));
+      const v1119 = stdlib.add(v1118, stdlib.checkedBigNumberify('./index.rsh:145:93:decimal', stdlib.UInt_max, '1'));
+      const v1120 = stdlib.mul(v1118, v1119);
+      const v1121 = stdlib.div(v1120, stdlib.checkedBigNumberify('./index.rsh:145:98:decimal', stdlib.UInt_max, '2'));
+      const v1122 = stdlib.mul(v1121, v554);
+      const v1123 = stdlib.add(v1118, v554);
+      const v1124 = stdlib.div(v1122, v1118);
+      const v1125 = stdlib.add(v592, v553);
+      const v1126 = stdlib.sub(v589, v1122);
+      const v1130 = stdlib.sub(v1059, v1126);
+      ;
+      const v1131 = true;
+      const v1132 = await txn1.getOutput('Schmuck_rebase', 'v1131', ctc3, v1131);
+      if (v313) {
+        stdlib.protect(ctc9, await interact.out(v1018, v1132), {
+          at: './index.rsh:137:8:application',
+          fs: ['at ./index.rsh:137:8:application call to [unknown function] (defined at: ./index.rsh:137:8:function exp)', 'at ./index.rsh:151:8:application call to "k" (defined at: ./index.rsh:140:9:function exp)', 'at ./index.rsh:140:9:application call to [unknown function] (defined at: ./index.rsh:140:9:function exp)'],
+          msg: 'out',
+          who: 'Schmuck_rebase'
+          });
+        }
+      else {
+        }
+      
+      const v2423 = v1118;
+      const v2424 = v585;
+      const v2425 = true;
+      const v2426 = true;
+      const v2427 = v1118;
+      const v2428 = v1122;
+      const v2429 = v1123;
+      const v2430 = v1124;
+      const v2431 = v1125;
+      const v2432 = v710;
+      const v2433 = v1068;
+      const v2434 = v1130;
+      const v2435 = v1068[stdlib.checkedBigNumberify('./index.rsh:80:30:application', stdlib.UInt_max, '0')];
+      const v2436 = v2435[stdlib.checkedBigNumberify('./index.rsh:80:30:application', stdlib.UInt_max, '0')];
+      const v2437 = stdlib.gt(v2436, stdlib.checkedBigNumberify('./index.rsh:80:45:decimal', stdlib.UInt_max, '0'));
+      if (v2437) {
+        return;
+        }
+      else {
+        ;
+        ;
+        return;
+        }
+      break;
+      }
+    case 'Schmuck_sell0_84': {
+      const v1171 = v709[1];
       return;
       break;
       }
@@ -904,142 +1310,155 @@ export async function _Schmuck_sell4(ctcTop, interact) {
   const ctc6 = stdlib.T_Tuple([ctc1]);
   const ctc7 = stdlib.T_Tuple([]);
   const ctc8 = stdlib.T_Data({
-    SchmecklerAPI_claimFees0_75: ctc7,
-    Schmuck_buy0_75: ctc6,
-    Schmuck_sell0_75: ctc6
+    SchmecklerAPI_claimFees0_84: ctc7,
+    Schmuck_buy0_84: ctc6,
+    Schmuck_rebase0_84: ctc7,
+    Schmuck_sell0_84: ctc6
     });
   const ctc9 = stdlib.T_Null;
   
   
-  const [v444, v445, v446, v447, v474, v477, v478, v479, v480, v481, v488, v489] = await ctc.getState(stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '4'), [ctc0, ctc1, ctc1, ctc2, ctc1, ctc1, ctc1, ctc1, ctc1, ctc1, ctc5, ctc1]);
-  const v516 = stdlib.protect(ctc6, await interact.in(), {
+  const [v552, v553, v554, v555, v556, v584, v585, v586, v587, v588, v589, v590, v591, v592, v593, v599, v600] = await ctc.getState(stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '4'), [ctc0, ctc1, ctc1, ctc1, ctc2, ctc1, ctc1, ctc3, ctc3, ctc1, ctc1, ctc1, ctc1, ctc1, ctc1, ctc5, ctc1]);
+  const v628 = stdlib.protect(ctc6, await interact.in(), {
     at: './index.rsh:1:23:application',
-    fs: ['at ./index.rsh:100:14:application call to [unknown function] (defined at: ./index.rsh:100:14:function exp)', 'at ./index.rsh:69:17:application call to "runSchmuck_sell0_75" (defined at: ./index.rsh:99:7:function exp)', 'at ./index.rsh:69:17:application call to [unknown function] (defined at: ./index.rsh:69:17:function exp)'],
+    fs: ['at ./index.rsh:109:14:application call to [unknown function] (defined at: ./index.rsh:109:14:function exp)', 'at ./index.rsh:74:17:application call to "runSchmuck_sell0_84" (defined at: ./index.rsh:108:7:function exp)', 'at ./index.rsh:74:17:application call to [unknown function] (defined at: ./index.rsh:74:17:function exp)'],
     msg: 'in',
     who: 'Schmuck_sell'
     });
-  const v517 = v516[stdlib.checkedBigNumberify('./index.rsh:1:23:application', stdlib.UInt_max, '0')];
-  const v520 = stdlib.eq(v517, stdlib.checkedBigNumberify('./index.rsh:100:36:decimal', stdlib.UInt_max, '1'));
-  const v521 = v488[stdlib.checkedBigNumberify('./index.rsh:100:48:application', stdlib.UInt_max, '0')];
-  const v522 = v521[stdlib.checkedBigNumberify('./index.rsh:100:48:application', stdlib.UInt_max, '0')];
-  const v523 = stdlib.gt(v522, stdlib.checkedBigNumberify('./index.rsh:100:63:decimal', stdlib.UInt_max, '0'));
-  const v524 = v520 ? v523 : false;
-  const v525 = stdlib.gt(v474, stdlib.checkedBigNumberify('./index.rsh:100:96:decimal', stdlib.UInt_max, '0'));
-  const v526 = v524 ? v525 : false;
-  const v528 = stdlib.gt(v489, v480);
-  const v529 = v526 ? v528 : false;
-  stdlib.assert(v529, {
-    at: './index.rsh:100:25:application',
-    fs: ['at ./index.rsh:100:14:application call to [unknown function] (defined at: ./index.rsh:100:14:function exp)', 'at ./index.rsh:100:14:application call to [unknown function] (defined at: ./index.rsh:100:14:function exp)', 'at ./index.rsh:69:17:application call to "runSchmuck_sell0_75" (defined at: ./index.rsh:99:7:function exp)', 'at ./index.rsh:69:17:application call to [unknown function] (defined at: ./index.rsh:69:17:function exp)'],
+  const v629 = v628[stdlib.checkedBigNumberify('./index.rsh:1:23:application', stdlib.UInt_max, '0')];
+  const v632 = stdlib.eq(v629, stdlib.checkedBigNumberify('./index.rsh:109:36:decimal', stdlib.UInt_max, '1'));
+  const v633 = v599[stdlib.checkedBigNumberify('./index.rsh:109:48:application', stdlib.UInt_max, '0')];
+  const v634 = v633[stdlib.checkedBigNumberify('./index.rsh:109:48:application', stdlib.UInt_max, '0')];
+  const v635 = stdlib.gt(v634, stdlib.checkedBigNumberify('./index.rsh:109:63:decimal', stdlib.UInt_max, '0'));
+  const v636 = v632 ? v635 : false;
+  const v637 = stdlib.gt(v584, stdlib.checkedBigNumberify('./index.rsh:109:96:decimal', stdlib.UInt_max, '0'));
+  const v638 = v636 ? v637 : false;
+  const v640 = stdlib.gt(v600, v591);
+  const v641 = v638 ? v640 : false;
+  stdlib.assert(v641, {
+    at: './index.rsh:109:25:application',
+    fs: ['at ./index.rsh:109:14:application call to [unknown function] (defined at: ./index.rsh:109:14:function exp)', 'at ./index.rsh:109:14:application call to [unknown function] (defined at: ./index.rsh:109:14:function exp)', 'at ./index.rsh:74:17:application call to "runSchmuck_sell0_84" (defined at: ./index.rsh:108:7:function exp)', 'at ./index.rsh:74:17:application call to [unknown function] (defined at: ./index.rsh:74:17:function exp)'],
     msg: null,
     who: 'Schmuck_sell'
     });
-  const v533 = ['Schmuck_sell0_75', v516];
+  const v645 = ['Schmuck_sell0_84', v628];
   
   const txn1 = await (ctc.sendrecv({
-    args: [v444, v445, v446, v447, v474, v477, v478, v479, v480, v481, v488, v489, v533],
+    args: [v552, v553, v554, v555, v556, v584, v585, v586, v587, v588, v589, v590, v591, v592, v593, v599, v600, v645],
     evt_cnt: 1,
     funcNum: 3,
     lct: stdlib.checkedBigNumberify('<builtin>', stdlib.UInt_max, '0'),
     onlyIf: true,
     out_tys: [ctc8],
-    pay: [v445, [[v517, v447]]],
+    pay: [v553, [[v629, v556]]],
     sim_p: (async (txn1) => {
       const sim_r = { txns: [], mapRefs: [], maps: [] };
       let sim_txn_ctr = stdlib.UInt_max;
       const getSimTokCtr = () => { sim_txn_ctr = sim_txn_ctr.sub(1); return sim_txn_ctr; };
       
       
-      const {data: [v575], secs: v577, time: v576, didSend: v254, from: v574 } = txn1;
+      const {data: [v709], secs: v711, time: v710, didSend: v313, from: v708 } = txn1;
       
-      switch (v575[0]) {
-        case 'SchmecklerAPI_claimFees0_75': {
-          const v578 = v575[1];
+      switch (v709[0]) {
+        case 'SchmecklerAPI_claimFees0_84': {
+          const v712 = v709[1];
           
           break;
           }
-        case 'Schmuck_buy0_75': {
-          const v696 = v575[1];
+        case 'Schmuck_buy0_84': {
+          const v865 = v709[1];
           
           break;
           }
-        case 'Schmuck_sell0_75': {
-          const v814 = v575[1];
+        case 'Schmuck_rebase0_84': {
+          const v1018 = v709[1];
+          
+          break;
+          }
+        case 'Schmuck_sell0_84': {
+          const v1171 = v709[1];
           sim_r.txns.push({
             kind: 'api',
             who: "Schmuck_sell"
             });
-          const v833 = v814[stdlib.checkedBigNumberify('./index.rsh:99:7:spread', stdlib.UInt_max, '0')];
-          const v848 = stdlib.add(v489, v445);
+          const v1197 = v1171[stdlib.checkedBigNumberify('./index.rsh:108:7:spread', stdlib.UInt_max, '0')];
+          const v1212 = stdlib.add(v600, v553);
           sim_r.txns.push({
-            amt: v445,
+            amt: v553,
             kind: 'to',
             tok: undefined /* Nothing */
             });
-          const v849 = v488[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0')];
-          const v850 = v849[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0')];
-          const v851 = stdlib.add(v850, v833);
-          const v854 = v849[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '1')];
-          const v855 = v849[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '2')];
-          const v856 = [v851, v854, v855];
-          const v857 = stdlib.Array_set(v488, stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0'), v856);
+          const v1213 = v599[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0')];
+          const v1214 = v1213[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0')];
+          const v1215 = stdlib.add(v1214, v1197);
+          const v1218 = v1213[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '1')];
+          const v1219 = v1213[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '2')];
+          const v1220 = [v1215, v1218, v1219];
+          const v1221 = stdlib.Array_set(v599, stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0'), v1220);
           sim_r.txns.push({
-            amt: v833,
+            amt: v1197,
             kind: 'to',
-            tok: v447
+            tok: v556
             });
-          const v905 = stdlib.eq(v833, stdlib.checkedBigNumberify('./index.rsh:103:26:decimal', stdlib.UInt_max, '1'));
-          const v906 = v857[stdlib.checkedBigNumberify('./index.rsh:103:38:application', stdlib.UInt_max, '0')];
-          const v907 = v906[stdlib.checkedBigNumberify('./index.rsh:103:38:application', stdlib.UInt_max, '0')];
-          const v908 = stdlib.gt(v907, stdlib.checkedBigNumberify('./index.rsh:103:53:decimal', stdlib.UInt_max, '0'));
-          const v909 = v905 ? v908 : false;
-          const v910 = stdlib.gt(v474, stdlib.checkedBigNumberify('./index.rsh:103:86:decimal', stdlib.UInt_max, '0'));
-          const v911 = v909 ? v910 : false;
-          const v913 = stdlib.gt(v848, v480);
-          const v914 = v911 ? v913 : false;
+          const v1293 = stdlib.eq(v1197, stdlib.checkedBigNumberify('./index.rsh:112:26:decimal', stdlib.UInt_max, '1'));
+          const v1294 = v1221[stdlib.checkedBigNumberify('./index.rsh:112:38:application', stdlib.UInt_max, '0')];
+          const v1295 = v1294[stdlib.checkedBigNumberify('./index.rsh:112:38:application', stdlib.UInt_max, '0')];
+          const v1296 = stdlib.gt(v1295, stdlib.checkedBigNumberify('./index.rsh:112:53:decimal', stdlib.UInt_max, '0'));
+          const v1297 = v1293 ? v1296 : false;
+          const v1298 = stdlib.gt(v584, stdlib.checkedBigNumberify('./index.rsh:112:86:decimal', stdlib.UInt_max, '0'));
+          const v1299 = v1297 ? v1298 : false;
+          const v1301 = stdlib.gt(v1212, v591);
+          const v1302 = v1299 ? v1301 : false;
           ;
-          const v918 = stdlib.sub(v848, v480);
+          const v1306 = stdlib.sub(v1212, v591);
           sim_r.txns.push({
-            amt: v480,
+            amt: v591,
             kind: 'from',
-            to: v574,
+            to: v708,
             tok: undefined /* Nothing */
             });
-          const v919 = true;
-          const v920 = await txn1.getOutput('Schmuck_sell', 'v919', ctc3, v919);
+          const v1307 = true;
+          const v1308 = await txn1.getOutput('Schmuck_sell', 'v1307', ctc3, v1307);
           
-          const v926 = stdlib.sub(v474, stdlib.checkedBigNumberify('./index.rsh:108:72:decimal', stdlib.UInt_max, '1'));
-          const v927 = stdlib.sub(v478, v480);
-          const v928 = stdlib.eq(v926, stdlib.checkedBigNumberify('./index.rsh:110:68:decimal', stdlib.UInt_max, '0'));
-          const v929 = v928 ? v446 : v480;
-          const v930 = stdlib.add(v481, v445);
-          const v1576 = v926;
-          const v1578 = v477;
-          const v1579 = v927;
-          const v1580 = v929;
-          const v1581 = v480;
-          const v1582 = v930;
-          const v1584 = v857;
-          const v1585 = v918;
-          if (v908) {
+          const v1314 = stdlib.sub(v584, stdlib.checkedBigNumberify('./index.rsh:117:73:decimal', stdlib.UInt_max, '1'));
+          const v1315 = stdlib.eq(v1314, stdlib.checkedBigNumberify('./index.rsh:118:71:decimal', stdlib.UInt_max, '0'));
+          const v1316 = v1315 ? stdlib.checkedBigNumberify('./index.rsh:118:75:decimal', stdlib.UInt_max, '0') : v588;
+          const v1317 = stdlib.sub(v589, v591);
+          const v1319 = v1315 ? v554 : v591;
+          const v1320 = stdlib.add(v592, v553);
+          const v1321 = stdlib.add(v585, v555);
+          const v1322 = v587 ? v585 : v1321;
+          const v2513 = v1314;
+          const v2514 = v1322;
+          const v2515 = true;
+          const v2516 = true;
+          const v2517 = v1316;
+          const v2518 = v1317;
+          const v2519 = v1319;
+          const v2520 = v591;
+          const v2521 = v1320;
+          const v2522 = v710;
+          const v2523 = v1221;
+          const v2524 = v1306;
+          if (v1296) {
             sim_r.isHalt = false;
             }
           else {
             sim_r.txns.push({
-              amt: v918,
+              amt: v1306,
               kind: 'from',
-              to: v444,
+              to: v552,
               tok: undefined /* Nothing */
               });
             sim_r.txns.push({
-              amt: v907,
+              amt: v1295,
               kind: 'from',
-              to: v444,
-              tok: v447
+              to: v552,
+              tok: v556
               });
             sim_r.txns.push({
               kind: 'halt',
-              tok: v447
+              tok: v556
               })
             sim_r.txns.push({
               kind: 'halt',
@@ -1054,58 +1473,63 @@ export async function _Schmuck_sell4(ctcTop, interact) {
       }),
     soloSend: false,
     timeoutAt: undefined /* mto */,
-    tys: [ctc0, ctc1, ctc1, ctc2, ctc1, ctc1, ctc1, ctc1, ctc1, ctc1, ctc5, ctc1, ctc8],
+    tys: [ctc0, ctc1, ctc1, ctc1, ctc2, ctc1, ctc1, ctc3, ctc3, ctc1, ctc1, ctc1, ctc1, ctc1, ctc1, ctc5, ctc1, ctc8],
     waitIfNotPresent: false
     }));
-  const {data: [v575], secs: v577, time: v576, didSend: v254, from: v574 } = txn1;
-  switch (v575[0]) {
-    case 'SchmecklerAPI_claimFees0_75': {
-      const v578 = v575[1];
+  const {data: [v709], secs: v711, time: v710, didSend: v313, from: v708 } = txn1;
+  switch (v709[0]) {
+    case 'SchmecklerAPI_claimFees0_84': {
+      const v712 = v709[1];
       return;
       break;
       }
-    case 'Schmuck_buy0_75': {
-      const v696 = v575[1];
+    case 'Schmuck_buy0_84': {
+      const v865 = v709[1];
       return;
       break;
       }
-    case 'Schmuck_sell0_75': {
-      const v814 = v575[1];
+    case 'Schmuck_rebase0_84': {
+      const v1018 = v709[1];
+      return;
+      break;
+      }
+    case 'Schmuck_sell0_84': {
+      const v1171 = v709[1];
       undefined /* setApiDetails */;
-      const v833 = v814[stdlib.checkedBigNumberify('./index.rsh:99:7:spread', stdlib.UInt_max, '0')];
-      const v848 = stdlib.add(v489, v445);
+      const v1197 = v1171[stdlib.checkedBigNumberify('./index.rsh:108:7:spread', stdlib.UInt_max, '0')];
+      const v1212 = stdlib.add(v600, v553);
       ;
-      const v849 = v488[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0')];
-      const v850 = v849[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0')];
-      const v851 = stdlib.add(v850, v833);
-      const v854 = v849[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '1')];
-      const v855 = v849[stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '2')];
-      const v856 = [v851, v854, v855];
-      const v857 = stdlib.Array_set(v488, stdlib.checkedBigNumberify('./index.rsh:69:17:dot', stdlib.UInt_max, '0'), v856);
+      const v1213 = v599[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0')];
+      const v1214 = v1213[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0')];
+      const v1215 = stdlib.add(v1214, v1197);
+      const v1218 = v1213[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '1')];
+      const v1219 = v1213[stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '2')];
+      const v1220 = [v1215, v1218, v1219];
+      const v1221 = stdlib.Array_set(v599, stdlib.checkedBigNumberify('./index.rsh:74:17:dot', stdlib.UInt_max, '0'), v1220);
       ;
-      const v905 = stdlib.eq(v833, stdlib.checkedBigNumberify('./index.rsh:103:26:decimal', stdlib.UInt_max, '1'));
-      const v906 = v857[stdlib.checkedBigNumberify('./index.rsh:103:38:application', stdlib.UInt_max, '0')];
-      const v907 = v906[stdlib.checkedBigNumberify('./index.rsh:103:38:application', stdlib.UInt_max, '0')];
-      const v908 = stdlib.gt(v907, stdlib.checkedBigNumberify('./index.rsh:103:53:decimal', stdlib.UInt_max, '0'));
-      const v909 = v905 ? v908 : false;
-      const v910 = stdlib.gt(v474, stdlib.checkedBigNumberify('./index.rsh:103:86:decimal', stdlib.UInt_max, '0'));
-      const v911 = v909 ? v910 : false;
-      const v913 = stdlib.gt(v848, v480);
-      const v914 = v911 ? v913 : false;
-      stdlib.assert(v914, {
-        at: './index.rsh:103:14:application',
-        fs: ['at ./index.rsh:102:17:application call to [unknown function] (defined at: ./index.rsh:102:17:function exp)'],
+      const v1293 = stdlib.eq(v1197, stdlib.checkedBigNumberify('./index.rsh:112:26:decimal', stdlib.UInt_max, '1'));
+      const v1294 = v1221[stdlib.checkedBigNumberify('./index.rsh:112:38:application', stdlib.UInt_max, '0')];
+      const v1295 = v1294[stdlib.checkedBigNumberify('./index.rsh:112:38:application', stdlib.UInt_max, '0')];
+      const v1296 = stdlib.gt(v1295, stdlib.checkedBigNumberify('./index.rsh:112:53:decimal', stdlib.UInt_max, '0'));
+      const v1297 = v1293 ? v1296 : false;
+      const v1298 = stdlib.gt(v584, stdlib.checkedBigNumberify('./index.rsh:112:86:decimal', stdlib.UInt_max, '0'));
+      const v1299 = v1297 ? v1298 : false;
+      const v1301 = stdlib.gt(v1212, v591);
+      const v1302 = v1299 ? v1301 : false;
+      stdlib.assert(v1302, {
+        at: './index.rsh:112:14:application',
+        fs: ['at ./index.rsh:111:17:application call to [unknown function] (defined at: ./index.rsh:111:17:function exp)'],
         msg: null,
         who: 'Schmuck_sell'
         });
-      const v918 = stdlib.sub(v848, v480);
+      const v1306 = stdlib.sub(v1212, v591);
       ;
-      const v919 = true;
-      const v920 = await txn1.getOutput('Schmuck_sell', 'v919', ctc3, v919);
-      if (v254) {
-        stdlib.protect(ctc9, await interact.out(v814, v920), {
-          at: './index.rsh:99:8:application',
-          fs: ['at ./index.rsh:99:8:application call to [unknown function] (defined at: ./index.rsh:99:8:function exp)', 'at ./index.rsh:106:8:application call to "k" (defined at: ./index.rsh:102:17:function exp)', 'at ./index.rsh:102:17:application call to [unknown function] (defined at: ./index.rsh:102:17:function exp)'],
+      const v1307 = true;
+      const v1308 = await txn1.getOutput('Schmuck_sell', 'v1307', ctc3, v1307);
+      if (v313) {
+        stdlib.protect(ctc9, await interact.out(v1171, v1308), {
+          at: './index.rsh:108:8:application',
+          fs: ['at ./index.rsh:108:8:application call to [unknown function] (defined at: ./index.rsh:108:8:function exp)', 'at ./index.rsh:115:8:application call to "k" (defined at: ./index.rsh:111:17:function exp)', 'at ./index.rsh:111:17:application call to [unknown function] (defined at: ./index.rsh:111:17:function exp)'],
           msg: 'out',
           who: 'Schmuck_sell'
           });
@@ -1113,20 +1537,27 @@ export async function _Schmuck_sell4(ctcTop, interact) {
       else {
         }
       
-      const v926 = stdlib.sub(v474, stdlib.checkedBigNumberify('./index.rsh:108:72:decimal', stdlib.UInt_max, '1'));
-      const v927 = stdlib.sub(v478, v480);
-      const v928 = stdlib.eq(v926, stdlib.checkedBigNumberify('./index.rsh:110:68:decimal', stdlib.UInt_max, '0'));
-      const v929 = v928 ? v446 : v480;
-      const v930 = stdlib.add(v481, v445);
-      const v1576 = v926;
-      const v1578 = v477;
-      const v1579 = v927;
-      const v1580 = v929;
-      const v1581 = v480;
-      const v1582 = v930;
-      const v1584 = v857;
-      const v1585 = v918;
-      if (v908) {
+      const v1314 = stdlib.sub(v584, stdlib.checkedBigNumberify('./index.rsh:117:73:decimal', stdlib.UInt_max, '1'));
+      const v1315 = stdlib.eq(v1314, stdlib.checkedBigNumberify('./index.rsh:118:71:decimal', stdlib.UInt_max, '0'));
+      const v1316 = v1315 ? stdlib.checkedBigNumberify('./index.rsh:118:75:decimal', stdlib.UInt_max, '0') : v588;
+      const v1317 = stdlib.sub(v589, v591);
+      const v1319 = v1315 ? v554 : v591;
+      const v1320 = stdlib.add(v592, v553);
+      const v1321 = stdlib.add(v585, v555);
+      const v1322 = v587 ? v585 : v1321;
+      const v2513 = v1314;
+      const v2514 = v1322;
+      const v2515 = true;
+      const v2516 = true;
+      const v2517 = v1316;
+      const v2518 = v1317;
+      const v2519 = v1319;
+      const v2520 = v591;
+      const v2521 = v1320;
+      const v2522 = v710;
+      const v2523 = v1221;
+      const v2524 = v1306;
+      if (v1296) {
         return;
         }
       else {
@@ -1162,6 +1593,17 @@ export async function Schmuck_buy(ctcTop, interact) {
   stdlib.assert(step == 4, 'API called in the wrong state. Currently in state: ' + step + ', expected:  [4]');
   if (step == 4) {return _Schmuck_buy4(ctcTop, interact);}
   };
+export async function Schmuck_rebase(ctcTop, interact) {
+  if (typeof(ctcTop) !== 'object' || ctcTop._initialize === undefined) {
+    return Promise.reject(new Error(`The backend for Schmuck_rebase expects to receive a contract as its first argument.`));}
+  if (typeof(interact) !== 'object') {
+    return Promise.reject(new Error(`The backend for Schmuck_rebase expects to receive an interact object as its second argument.`));}
+  const ctc = ctcTop._initialize();
+  const stdlib = ctc.stdlib;
+  const step = await ctc.getCurrentStep()
+  stdlib.assert(step == 4, 'API called in the wrong state. Currently in state: ' + step + ', expected:  [4]');
+  if (step == 4) {return _Schmuck_rebase4(ctcTop, interact);}
+  };
 export async function Schmuck_sell(ctcTop, interact) {
   if (typeof(ctcTop) !== 'object' || ctcTop._initialize === undefined) {
     return Promise.reject(new Error(`The backend for Schmuck_sell expects to receive a contract as its first argument.`));}
@@ -1175,37 +1617,37 @@ export async function Schmuck_sell(ctcTop, interact) {
   };
 const _ALGO = {
   ABI: {
-    impure: [`SchmecklerAPI_claimFees()byte`, `Schmuck_buy(uint64)byte`, `Schmuck_sell(uint64)byte`],
-    pure: [],
-    sigs: [`SchmecklerAPI_claimFees()byte`, `Schmuck_buy(uint64)byte`, `Schmuck_sell(uint64)byte`]
+    impure: [`SchmecklerAPI_claimFees()byte`, `Schmuck_buy(uint64)byte`, `Schmuck_rebase()byte`, `Schmuck_sell(uint64)byte`],
+    pure: [`SchmeckleShopView_read()(byte,byte,uint64,uint64,uint64,uint64,uint64,uint64,uint64)`],
+    sigs: [`SchmeckleShopView_read()(byte,byte,uint64,uint64,uint64,uint64,uint64,uint64,uint64)`, `SchmecklerAPI_claimFees()byte`, `Schmuck_buy(uint64)byte`, `Schmuck_rebase()byte`, `Schmuck_sell(uint64)byte`]
     },
-  appApproval: `BiANAAEECNiolO8N1vCfvA4DICgwOAKgjQYmAwEBAQAAIjUAMRhBBNIqZEkiWzUBJVs1AjYaABdJQQBKIjUEIzUGSSEEDEAAKUkhBQxAABAhBRJENhoBNf8oNP9QQgBEIQQSRDYaATX/gAECNP9QQgAygaqRmGQSRCo1/yk0/1Alr1BCAB42GgIXNQQ2GgM2GgEXSSMMQALBSSEGDEACPiEGEkQkNAESRDQESSISTDQCEhFEKWQoZFBJNQNJSkpKSkpXACA1/yEHWzX+IQhbNf0hCVs1/CEKWzX7gUBbNfqBSFs1+YFQWzX4gVhbNfeBYFs19ldoETX1gXlbNfRJNQU184AEkfGnmjTzULA08yJVSSMMQAFxSSELDEAArCELEkQ081cBCDXyNPIXNfE09DT+CDXwNP6IA8o09VcAEUk17yJbNPEIFjTvVwgIUDTvVxABUDXuNPE0/IgDvzTxIxI07lcAESJbIg0QNPsiDRA08DT3DRBEsSKyATT3sggjshAxALIHs4AJAAAAAAAAA5cBsCg1BzT7Iwk17TT/NP40/TT8NO0jNPo0+TT3CTT3NP007SISTTT3NPY0/ggyBjTuNPA09wlCAi5INPNXAQg18jT+NPgINfE08YgDJjT1VwARSTXwVwAINPBXCAhQNPBXEAFQNe808hdJNe4jEkQ071cAETXtsSKyATTushIkshAxALIUNPyyEbOACQAAAAAAAAL/AbAoNQc0+yMINew0+jTsDTXrNPk0+Ag16jT/NP40/TT8NOwjNOw0+jTrTTTqNPgjCDT3NOtNNOo07Ao09zTrTTT2NP4IMgY07SJbNO4JFjTtVwgIUDTtVxABUDT0NPEIQgFwSDT1VwARNfKxIrIBNPayCCOyEDT/sgezgAkAAAAAAAACcwGwKDUHNP80/jT9NPw0+yM0+jT5NPg09yIyBjTyVwAINPJXCAhQNPJXEAFQNPQ09glCARojEkQjNAESRDQESSISTDQCEhFEKWRJNQNJSklXACA1/yEIWzX+IQlbNf0hCls1/FdAETX7gASai5F0sDT7VwARNfo0/DT9iAH1NP8xABJENP80AyEHWzT+NP0iIyIiNP4iIjIGNPoiWzT8CBY0+lcICFA0+lcQAVAiQgCeSCI0ARJENARJIhJMNAISEURJNQVJSiJbNf8lWzX+gRBbNf2BGFs1/IAE9u2r0jT/FlA0/hZQNP0WUDT8FlCwIQyIAWaBEa9JNftXABE1+iWvNPpXCAhQNPpXEAFQNfkhDIgBRrEisgEishIkshAyCrIUNP2yEbMxADT/FlA0/hZQNP0WUDT8FlA0+VApSwFXAFFnSCM1ATIGNQJCAM81/zX+Nf01/DX7Nfo1+TX4Nfc19jX1NfQ18zXyNP5XABEiWzXxNPc08SINEEEARjTyNPMWUDT0FlA09RZQNPYWUDT4FlA0+RZQNPoWUDT7FlA0/BZQNP5QNP8WUClLAVcAf2coSwFXfwJnSCQ1ATIGNQJCAFqxIrIBNP+yCCOyEDTysgezsSKyATTxshIkshA08rIUNPWyEbOxIrIBIrISJLIQMgmyFTIKshQ09bIRs0IAADEZgQUSRLEisgEisggjshAyCbIJMgqyB7NCAAUxGSISRCo0ARY0AhZQZzQGQQAKgAQVH3x1NAdQsDQASSMIMgQSRDEWEkQjQzEZIhJEQv/fIjUBIjUCQv/DNABJSiMINQA4BzIKEkQ4ECMSRDgIEkSJNABJSkkjCDUAOBQyChJEOBAkEkQ4EU8CEkQ4EhJEiQ==`,
+  appApproval: `BiARAAEECAMg2KiU7w3W8J+8DpCF5b0Pjaf77QEoMDhASAKgjQYmAwEBAQAAIjUAMRhBBk8qZEkiWzUBJVs1AjYaABdJQQC0IjUEIzUGSSEGDEAAQ0khBwxAACpJIQgMQAATIQgSRCo1/4ABAjT/UCWvUEIApCEHEkQ2GgE1/yg0/1BCAJQhBhJENhoBNf+AAQM0/1BCAIJJIQkMQABJIQkSRDQBJBJEKWQoZFBJNQNXUAE0A1dRAVA0A1dSCFA0A1dACFA0A1daCFA0A1diCFA0A1dqCFA0A1dyCFA0A1dICFA1B0IFlIGqkZhkEkQqNf8pNP9QJa9QQgAeNhoCFzUENhoDNhoBF0kjDEADokkhBAxAAxQhBBJEJDQBEkQ0BEkiEkw0AhIRRClkKGRQSTUDSUpKSkpKSklXACA1/yEFWzX+IQpbNf0hC1s1/CEMWzX7IQ1bNfohDls1+VdRARc1+IFSWzX3gVpbNfaBYls19YFqWzX0gXJbNfNXghE18oGTAVs18Uk1BTXwgASR8aeaNPBQsDTwIlVJIQ8MQAFiSSEEDEAAwCEEEkQ08FcBCDXvNO8XNe408TT+CDXtNP6IBMk08lcAEUk17CJbNO4IFjTsVwgIUDTsVxABUDXrNO40+4gEvjTuIxI061cAESJbIg0QNPoiDRA07TT0DRBEsSKyATT0sggjshAxALIHs4AJAAAAAAAABRsBsCg1BzT6IwlJNeoiEjXpNP80/jT9NPw0+zTqNPk0/Ag0+TT4TSMjNPciNOlNNPY09Ak09DT9NOlNNPQ08zT+CDIGNOs07TT0CUIC+Ug0/ogEHzTyVwARNe8jNPuIBCo0A4F6WzT5DTT4EEQ0+iMJSTXuSSMICyEPCjT9CzXtNPY07Qk17LEisgE07LIII7IQMQCyB7OACQAAAAAAAARrAbAoNQc0/zT+NP00/DT7NO40+SMjNO407TTuNP0INO007go08zT+CDIGNO8iWyMIFjTvVwgIUDTvVxABUDTxNP4INOwJQgJeSSMMQADFSDTwVwEINe80/jT1CDXuNO6IA3A08lcAEUk17VcACDTtVwgIUDTtVxABUDXsNO8XSTXrIxJENOxXABE16rEisgE067ISJLIQMQCyFDT7shGzgAkAAAAAAAADrwGwKDUHNPojCDXpNPc06Q016DT2NPUINec0/zT+NP00/DT7NOk0+SM06DTpNPc06E005zT1NP0INPQ06E005zTpCjT0NOhNNPM0/ggyBjTqIls06wkWNOpXCAhQNOpXEAFQNPE07ghCAZNINPJXABE177EisgE087III7IQNP+yB7OACQAAAAAAAAMAAbAoNQc0/zT+NP00/DT7NPo0+SM0+DT3NPY09TT0IjIGNO9XAAg071cICFA071cQAVA08TTzCUIBNyMSRCM0ARJENARJIhJMNAISEUQpZEk1A0lKSVcAIDX/IQpbNf4hDFs1/SENWzX8V1ARNfuABJqLkXSwNPtXABE1+jT8NP2IAjI0/zEAEkQ0/zQDIQVbNP40AyELWzT9IjQDIQ5bIyIiIjT+IiIyBjT6Ils0/AgWNPpXCAhQNPpXEAFQIkIAsEgiNAESRDQESSISTDQCEhFESTUFSUpJIls1/yVbNf6BEFs1/YEYWzX8IQVbNfuABE1+Byc0/xZQNP4WUDT9FlA0/BZQNPsWULAhEIgBjoERr0k1+lcAETX5Ja80+VcICFA0+VcQAVA1+CEQiAFusSKyASKyEiSyEDIKshQ0/LIRszEANP8WUDT+FlA0/RZQNPwWUDT7FlAyBhZQNPhQKUsBVwBhZ0gjNQEyBjUCQgDvNf81/jX9Nfw1+zX6Nfk1+DX3NfY19TX0NfM18jXxNfA17zT+VwARIls17jT2NO4iDRBBAGA07zTwFlA08RZQNPIWUDTzFlA09BZQNPUWUDT2FlEHCFA09xZRBwhQNPgWUDT5FlA0+hZQNPsWUDT8FlA0/RZQNP5QNP8WUClLAVcAf2coSwFXfxxnSCQ1ATIGNQJCAFqxIrIBNP+yCCOyEDTvsgezsSKyATTushIkshA077IUNPOyEbOxIrIBIrISJLIQMgmyFTIKshQ087IRs0IAADEZgQUSRLEisgEisggjshAyCbIJMgqyB7NCAAUxGSISRCo0ARY0AhZQZzQGQQAKgAQVH3x1NAdQsDQASSMIMgQSRDEWEkQjQzEZIhJEQv/fIjUBIjUCQv/DNABJSiMINQA4BzIKEkQ4ECMSRDgIEkSJNABJSkkjCDUAOBQyChJEOBAkEkQ4EU8CEkQ4EhJEiQ==`,
   appClear: `Bg==`,
   companionInfo: null,
   extraPages: 0,
   mapDataKeys: 0,
   mapDataSize: 0,
   stateKeys: 2,
-  stateSize: 129,
+  stateSize: 155,
   unsupported: [],
   version: 10,
   warnings: []
   };
 export const _stateSourceMap = {
   1: {
-    at: './index.rsh:50:11:after expr stmt semicolon',
+    at: './index.rsh:62:11:after expr stmt semicolon',
     fs: [],
     msg: null,
     who: 'Module'
     },
   3: {
-    at: './index.rsh:139:11:after expr stmt semicolon',
+    at: './index.rsh:180:11:after expr stmt semicolon',
     fs: [],
     msg: null,
     who: 'Module'
     },
   4: {
-    at: './index.rsh:69:17:after expr stmt semicolon',
+    at: './index.rsh:74:17:after expr stmt semicolon',
     fs: [],
     msg: null,
     who: 'Module'
@@ -1218,6 +1660,7 @@ export const _Participants = {
   "Schmeckler": Schmeckler,
   "SchmecklerAPI_claimFees": SchmecklerAPI_claimFees,
   "Schmuck_buy": Schmuck_buy,
+  "Schmuck_rebase": Schmuck_rebase,
   "Schmuck_sell": Schmuck_sell
   };
 export const _APIs = {
@@ -1226,6 +1669,7 @@ export const _APIs = {
     },
   Schmuck: {
     buy: Schmuck_buy,
+    rebase: Schmuck_rebase,
     sell: Schmuck_sell
     }
   };

@@ -5,34 +5,45 @@ User creates a a schmeckle shop, this shop sells schmeckles at an increasing amo
 the tokens can then be burnt to claim a proportional amount of the shop's vault
 */
 
+const schmeckleState = Tuple(Bool, Bool, UInt, UInt, UInt, UInt, UInt, UInt, UInt)
+
 export const main = Reach.App(() => {
 
   setOptions({ connectors: [ALGO] });
+  setOptions({untrustworthyMaps: true});
 
 
   const Schmeckler = Participant("Schmeckler", {
         setUpShop: Fun([],Object({
         fee: UInt,
         initialPrice: UInt,
+        rebaseTime: UInt,
         schmeckles: Token,
         schmeckleAmount: UInt})),
       ready: Fun([], Null)});
 
   const Schmuck = API("Schmuck", {
     buy: Fun([UInt], Bool),
-    sell: Fun([UInt], Bool)
+    sell: Fun([UInt], Bool),
+    rebase: Fun([], Bool)
   });
 
   const SchmecklerAPI = API("SchmecklerAPI", {
-    claimFees: Fun([], Bool)
+    claimFees: Fun([], Bool),
+    //exit: Fun([], Bool)
+  })
+
+  const SchmeckleShopView = View("SchmeckleShopView", {
+    read: schmeckleState,
   })
 
   init();
 
   Schmeckler.only(() => {
-    const{
+    const {
       fee, 
       initialPrice,
+      rebaseTime,
       schmeckles,
       schmeckleAmount 
     }= declassify(interact.setUpShop());})
@@ -41,6 +52,7 @@ export const main = Reach.App(() => {
   Schmeckler.publish(
       fee, 
       initialPrice,
+      rebaseTime,
       schmeckles,
       schmeckleAmount
   );
@@ -51,12 +63,20 @@ export const main = Reach.App(() => {
   Schmeckler.pay([[schmeckleAmount, schmeckles]]);
 
   Schmeckler.interact.ready();
+
+
   const intialBalance = balance(schmeckles);
 
-  const [keepGoing, makingUp, maxClaimedShmeckles, currentlyClaimedShmeckles, reserves, schmeckleBuyPrice, schmeckleSellPrice, schmecklerFees] = 
-  parallelReduce([true, false, 0, 0,  0, initialPrice , 0, 0])
+
+  const startingTime = lastConsensusTime();
+
+  const [keepGoing, makingUp, maxClaimedShmeckles, currentlyClaimedShmeckles, reserves, schmeckleBuyPrice, schmeckleSellPrice, schmecklerFees, deadline] = 
+  parallelReduce([true, false, 0, 0,  0, initialPrice , 0, 0, startingTime])
   .invariant(balance() == reserves + schmecklerFees 
   && balance(schmeckles) == intialBalance - currentlyClaimedShmeckles)
+  .define(() => {
+    SchmeckleShopView.read.set([keepGoing, makingUp, maxClaimedShmeckles, currentlyClaimedShmeckles, reserves, schmeckleBuyPrice, schmeckleSellPrice, schmecklerFees, deadline]);
+  })
   .while(keepGoing && balance(schmeckles) > 0)
   .paySpec([ schmeckles ])
   .api(Schmuck.buy,
@@ -67,22 +87,23 @@ export const main = Reach.App(() => {
       transfer([[amount, schmeckles]]).to(this)
       k(true);
 
-      const newCurrentlyClaimedSchmekles = currentlyClaimedShmeckles + 1;
-      const currentlyMakingUp = maxClaimedShmeckles > newCurrentlyClaimedSchmekles;
-      const newMaxClaimedSchmekle = (currentlyMakingUp) ? maxClaimedShmeckles : newCurrentlyClaimedSchmekles;
+      const newCurrentlyClaimedSchmeckles = currentlyClaimedShmeckles + 1;
+      const currentlyMakingUp = maxClaimedShmeckles > newCurrentlyClaimedSchmeckles;
+      const newMaxClaimedSchmekle = (currentlyMakingUp) ? maxClaimedShmeckles : newCurrentlyClaimedSchmeckles;
       const newReserves = reserves + schmeckleBuyPrice;
-      const newSchmeckleBuyPrice = currentlyMakingUp ? schmeckleSellPrice : schmeckleBuyPrice + 1;
-      const newSchmeckleSellPrice = currentlyMakingUp ? schmeckleSellPrice : newReserves / newCurrentlyClaimedSchmekles; 
+      const newSchmeckleBuyPrice = currentlyMakingUp ? schmeckleSellPrice : schmeckleBuyPrice + initialPrice;
+      const newSchmeckleSellPrice = currentlyMakingUp ? schmeckleSellPrice : newReserves / newCurrentlyClaimedSchmeckles; 
       const newSchmecklerFees = schmecklerFees + fee;
       return[
         true,
-        newMaxClaimedSchmekle == newCurrentlyClaimedSchmekles,
+        currentlyMakingUp,
         newMaxClaimedSchmekle,
-        newCurrentlyClaimedSchmekles,
+        newCurrentlyClaimedSchmeckles,
         newReserves,
         newSchmeckleBuyPrice,
         newSchmeckleSellPrice,
-        newSchmecklerFees]})
+        newSchmecklerFees,
+        deadline]})
 
   .api(Schmuck.sell,
     (amount) => {assume (amount == 1 && balance(schmeckles) > 0 && currentlyClaimedShmeckles > 0 && balance() > schmeckleSellPrice)},
@@ -93,20 +114,52 @@ export const main = Reach.App(() => {
       transfer(schmeckleSellPrice).to(this)
       k(true);
 
-      const newCurrentlyClaimedSchmekles = currentlyClaimedShmeckles - 1;
+      const newCurrentlyClaimedSchmeckles = currentlyClaimedShmeckles - 1;
+      const newMaxClaimedScmeckles = newCurrentlyClaimedSchmeckles == 0 ? 0 : maxClaimedShmeckles;
       const newReserves = reserves - schmeckleSellPrice;
-      const newSchmeckleBuyPrice = newCurrentlyClaimedSchmekles == 0 ?  initialPrice: schmeckleSellPrice;
+      const newSchmeckleBuyPrice = newCurrentlyClaimedSchmeckles == 0 ?  initialPrice: schmeckleSellPrice;
       const newSchmeckleSellPrice = schmeckleSellPrice; 
       const newSchmecklerFees = schmecklerFees + fee;
+
+      const deadlineStart = makingUp ? deadline : deadline + rebaseTime
+
       return[
         true,
         true,
-        maxClaimedShmeckles,
-        newCurrentlyClaimedSchmekles,
+        newMaxClaimedScmeckles,
+        newCurrentlyClaimedSchmeckles,
         newReserves,
         newSchmeckleBuyPrice,
         newSchmeckleSellPrice,
-        newSchmecklerFees]})
+        newSchmecklerFees,
+        deadlineStart]})
+        
+  .api(Schmuck.rebase,
+    () => {assume (lastConsensusTime() > deadline && makingUp == true)},
+    () => [fee, [1, schmeckles]],
+    (k) => {
+      require (lastConsensusTime() > deadline && makingUp == true);  
+    
+      const newCurrentlyClaimedSchmeckles = currentlyClaimedShmeckles - 1;
+      const newMaxClaimedScmeckles = newCurrentlyClaimedSchmeckles;
+      const newReserves = (newCurrentlyClaimedSchmeckles * (newCurrentlyClaimedSchmeckles + 1) / 2) * initialPrice;
+      const newSchmeckleBuyPrice = newCurrentlyClaimedSchmeckles + initialPrice;
+      const newSchmeckleSellPrice = newReserves / newCurrentlyClaimedSchmeckles; 
+      const newSchmecklerFees = schmecklerFees + fee;
+
+      transfer(reserves - newReserves).to(this)
+      k(true);
+      return[
+        true,
+        true,
+        newMaxClaimedScmeckles,
+        newCurrentlyClaimedSchmeckles,
+        newReserves,
+        newSchmeckleBuyPrice,
+        newSchmeckleSellPrice,
+        newSchmecklerFees,
+        deadline]})
+    
 
   .api(SchmecklerAPI.claimFees,
     (k) =>{
@@ -120,8 +173,8 @@ export const main = Reach.App(() => {
         reserves,
         schmeckleBuyPrice,
         schmeckleSellPrice,
-        0]})
-
+        0,
+        deadline]})
 
   transfer([balance(), [balance(schmeckles), schmeckles]]).to(Schmeckler);
   commit();
