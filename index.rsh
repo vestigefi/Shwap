@@ -68,7 +68,7 @@ export const main = Reach.App(() => {
   const intialBalance = balance(schmeckles);
 
 
-  const startingTime = lastConsensusTime();
+  const startingTime = lastConsensusSecs();
 
   const [keepGoing, makingUp, maxClaimedShmeckles, currentlyClaimedShmeckles, reserves, schmeckleBuyPrice, schmeckleSellPrice, schmecklerFees, deadline] = 
   parallelReduce([true, false, 0, 0,  0, initialPrice , 0, 0, startingTime])
@@ -88,10 +88,10 @@ export const main = Reach.App(() => {
       k(true);
 
       const newCurrentlyClaimedSchmeckles = currentlyClaimedShmeckles + 1;
-      const currentlyMakingUp = maxClaimedShmeckles > newCurrentlyClaimedSchmeckles;
-      const newMaxClaimedSchmekle = (currentlyMakingUp) ? maxClaimedShmeckles : newCurrentlyClaimedSchmeckles;
+      const newMaxClaimedSchmekle = maxClaimedShmeckles > newCurrentlyClaimedSchmeckles  ? maxClaimedShmeckles : newCurrentlyClaimedSchmeckles;
       const newReserves = reserves + schmeckleBuyPrice;
-      const newSchmeckleBuyPrice = currentlyMakingUp ? schmeckleSellPrice : schmeckleBuyPrice + initialPrice;
+      const currentlyMakingUp = !(newCurrentlyClaimedSchmeckles >= maxClaimedShmeckles);
+      const newSchmeckleBuyPrice = currentlyMakingUp ? schmeckleSellPrice : (newCurrentlyClaimedSchmeckles + 1)  * initialPrice;
       const newSchmeckleSellPrice = currentlyMakingUp ? schmeckleSellPrice : newReserves / newCurrentlyClaimedSchmeckles; 
       const newSchmecklerFees = schmecklerFees + fee;
       return[
@@ -121,7 +121,7 @@ export const main = Reach.App(() => {
       const newSchmeckleSellPrice = schmeckleSellPrice; 
       const newSchmecklerFees = schmecklerFees + fee;
 
-      const deadlineStart = makingUp ? deadline : deadline + rebaseTime
+      const deadlineStart = makingUp ? deadline : lastConsensusSecs() + rebaseTime;
 
       return[
         true,
@@ -135,10 +135,10 @@ export const main = Reach.App(() => {
         deadlineStart]})
         
   .api(Schmuck.rebase,
-    () => {assume (lastConsensusTime() > deadline && makingUp == true)},
+    () => {assume (lastConsensusSecs() > deadline && makingUp == true)},
     () => [fee, [1, schmeckles]],
     (k) => {
-      require (lastConsensusTime() > deadline && makingUp == true);  
+      require (lastConsensusSecs() > deadline && makingUp == true);  
     
       const newCurrentlyClaimedSchmeckles = currentlyClaimedShmeckles - 1;
       const newMaxClaimedScmeckles = newCurrentlyClaimedSchmeckles;
@@ -151,7 +151,7 @@ export const main = Reach.App(() => {
       k(true);
       return[
         true,
-        true,
+        false,
         newMaxClaimedScmeckles,
         newCurrentlyClaimedSchmeckles,
         newReserves,
