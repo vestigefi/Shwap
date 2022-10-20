@@ -1,35 +1,39 @@
 
 import {loadStdlib} from '@reach-sh/stdlib';
-import * as backend from './build/index.main.mjs';
+import * as algoShop from './build/index.algoShop.mjs';
+import * as vestShop from './build/index.vestShop.mjs'
 
-const reachLib = loadStdlib();
 
+
+const reachLib = loadStdlib({REACH_NO_WARN: 'Y'});
 const startingBalance = reachLib.parseCurrency(1000);
+const admin = await reachLib.newTestAccount(startingBalance);
+const users = await reachLib.newTestAccounts(10, startingBalance);
+const aShop = await admin.contract(algoShop);
+const vShop = await admin.contract(vestShop);
+const waitingTime = 10;
 
-const schmeckler = await reachLib.newTestAccount(startingBalance);
 
-console.log(reachLib.formatAddress(schmeckler))
+const sAlgoParam = {
+  name: "sALGO",
+  symbol: "sALGO",
+  url: "https://vestige.fi",
+  metadata: "this",
+  supply: reachLib.bigNumberify("18446744073709551615"),
+  decimals: 0}
+const sVestParam = {
+  name: "sVEST",
+  symbol: "sVEST",
+  url: "https://vestige.fi",
+  metadata: "this",
+  supply: reachLib.bigNumberify("18446744073709551615"),
+  decimals: 0}
 
-const schmucks = await reachLib.newTestAccounts(10, startingBalance);
-
-const schmeckleShop = await schmeckler.contract(backend);
-
-const schmeckles = await reachLib.launchToken(schmeckler, "Schmeckles", "SHM", {decimals:0, supply: 10_000_000_000});
-
-const waitingTime = 250;
-
-try {await schmeckleShop.p.Schmeckler({
-                
-  log: ((...args) => {                  
-    console.log(...args);
-  }),
-
+try {await aShop.p.ShopCreator({
   setUpShop:() => ({
-    fee: 10000,
-    initialPrice: 1_000000,
+    growthRate: 1,
     rebaseTime: waitingTime,
-    schmeckles: schmeckles.id,
-    schmeckleAmount: reachLib.bigNumberify(10_000_000_000)
+    sCoinParam: sAlgoParam
   }),  
 
   ready: ()=>{
@@ -43,177 +47,126 @@ catch(e){
     throw e;
   }
 }
+/*try {await vShop.p.ShopCreator({
+  setUpShop:() => ({
+    growthRate: 1,
+    rebaseTime: waitingTime,
+    sCoinParam: sAlgoParam,
+    vestToken: getTokID(v)
+  }),  
 
-const optin = async(who) => 
-  await who.tokenAccept(schmeckles.id);
-
-for (let i = 0; i < schmucks.length; ++i){
-  await optin(schmucks[i]);
-}
-
-const buySchmeckles = async(number)=>{
-  const schmuck = schmucks[number];
-  const deployedContract = schmuck.contract(backend,schmeckleShop.getInfo());
-  console.log("Schmuck ", reachLib.formatAddress(schmuck), " is trying to buy some Schmeckles!");
-
-
-  try{await deployedContract.apis.Schmuck.buy(1);
-  console.log("He bought!")
+  ready: ()=>{
+    console.log("The contract is ready!")
+    throw 42;
   }
-  catch (error){
-    console.error("Couldn't Buy")
-    console.log(error)
+
+})}
+catch(e){
+  if(e !== 42){
+    throw e;
   }
-  await getView();
-}
+}*/
 
-const sellSchmeckles = async(number)=>{
-  const schmuck = schmucks[number];
-  const deployedContract = schmuck.contract(backend,schmeckleShop.getInfo());
-  console.log("Schmuck ", reachLib.formatAddress(schmuck), " is trying to sell some Schmeckles!");
-
-  try{await deployedContract.apis.Schmuck.sell(1);
-  console.log("He sold!")
-  }
-  catch (error){
-    console.error("Couldn't Sell")
-    console.log(error)
-  }
-  await getView();
-}
-
-const rebaseShop = async(number)=>{
-
-
-
-  const schmuck = schmucks[number];
-  const deployedContract = schmuck.contract(backend,schmeckleShop.getInfo());
-
-
-
-  try{await deployedContract.apis.Schmuck.rebase();
-  console.log("He rebased the shop!")
-  }
-  catch (error){
-    console.error("Couldn't Rebase")
-    console.log(error)
-  }
-  await getView();
-}
-
-const claimFees = async(user) =>{
-  const claimer = user;
-  const deployedContract = claimer.contract(backend, schmeckleShop.getInfo());
-  console.log("User ", reachLib.formatAddress(user), " is trying to claim fees for Schmeckler!");
-  try{await deployedContract.apis.SchmecklerAPI.claimFees();
-    console.log("Fees where claimed!")
-    }
-    catch (error){
-      console.error("Couldn't claim fees")
-      console.log(error)
-    }
-    await getView();
-}
-
-const getView = async() =>{
-  const viewCtc = await schmeckler.contract(backend, schmeckleShop.getInfo());
-  const shopView = await viewCtc.v.SchmeckleShopView;
+const printFullView = async(ctc, backend, user) =>{
+  const viewCtc = await user.contract(backend, ctc.getInfo());
+  const shopView = await viewCtc.v.ShopView;
   const shopInfo = await shopView.read();
-  return console.log("Are we catching up? ", shopInfo[1][1], 
-  "\nMaximum Claimed Schmeckles: ", reachLib.bigNumberToNumber(shopInfo[1][2]), 
+  return console.log("TokenID:", reachLib.bigNumberToNumber(shopInfo[1][0]),
+  "\nAre we catching up? ", shopInfo[1][1], 
+  "\nCurren Sell Price: ", reachLib.bigNumberToNumber(shopInfo[1][2]), 
   "\nCurrently Claimed Schmeckles: ", reachLib.bigNumberToNumber(shopInfo[1][3]),
   "\nCurrent Reserve: ", reachLib.bigNumberToNumber(shopInfo[1][4]),
-  "\nCurrent Schmekle Buy Price: ", reachLib.bigNumberToNumber(shopInfo[1][5]),
-  "\nCurrent Schmeckle Sell Price", reachLib.bigNumberToNumber(shopInfo[1][6]),
-  "\nCurrent fees collected: ", reachLib.bigNumberToNumber(shopInfo[1][7]),
-  "\nTime until it finishes: ", reachLib.bigNumberToNumber(shopInfo[1][8]));
+  "\nCurrent Deadline: ", reachLib.bigNumberToNumber(shopInfo[1][5]),
+  "\nCurrent Peak Sold: ", reachLib.bigNumberToNumber(shopInfo[1][6]),
+);
 }
 
-const getDeadline = async() =>{
-  const viewCtc = await schmeckler.contract(backend, schmeckleShop.getInfo());
-  const shopView = await viewCtc.v.SchmeckleShopView;
+const printFullBadView = async(ctc, backend, user) =>{
+  const viewCtc = await user.contract(backend, ctc.getInfo());
+  const shopView = await viewCtc.v.ShopView;
+  const shopInfo = await shopView.readBad();
+  return console.log("TokenID:", reachLib.bigNumberToNumber(shopInfo[1][0]),
+  "\nAre we catching up? ", shopInfo[1][1], 
+  "\nCurren Sell Price: ", reachLib.bigNumberToNumber(shopInfo[1][2]), 
+  "\nCurrently Claimed Schmeckles: ", reachLib.bigNumberToNumber(shopInfo[1][3]),
+  "\nCurrent Reserve: ", reachLib.bigNumberToNumber(shopInfo[1][4]),
+  "\nCurrent Deadline: ", reachLib.bigNumberToNumber(shopInfo[1][5]),
+  "\nCurrent Peak Sold: ", reachLib.bigNumberToNumber(shopInfo[1][6]),
+);
+}
+await printFullView(aShop, algoShop, users[0])
+//await printFullBadView(aShop, algoShop, users[0])
+
+const getTokID = async(ctc, backend, user) =>{
+  const viewCtc = await user.contract(backend, ctc.getInfo());
+  const shopView = await viewCtc.v.ShopView
   const shopInfo = await shopView.read();
-  return shopInfo[1][8]
+  return  reachLib.bigNumberToNumber(shopInfo[1][0])}
+
+const getDeadline = async(ctc, backend, user) =>{
+  const viewCtc = await user.contract(backend, ctc.getInfo());
+  const shopView = await viewCtc.v.ShopView;
+  const shopInfo = await shopView.read();
+  return  reachLib.bigNumberToNumber(shopInfo[1][5])}
+
+
+const sAlgoID = await getTokID(aShop, algoShop, users[0])
+
+
+
+for (let i = 0; i < users.length; ++i){await users[i].tokenAccept(sAlgoID)}
+
+
+
+const buyCoin = async(ctc, backend, user, amt) =>{
+  const contract = await user.contract(backend, ctc.getInfo())
+  const buyAPI = await contract.apis.Buyer;
+  try{
+  const buy = await buyAPI.buy(amt);}
+  catch(e){
+    console.log(e , "\n Something went wrong when trying to buy!")
+  }
+  await printFullView(ctc, backend, user)
+}
+const sellCoin = async(ctc, backend, user, amt) =>{
+  const contract = await user.contract(backend, ctc.getInfo())
+  const sellAPI = await contract.apis.Buyer;
+
+  try{
+  const sell = await sellAPI.sell(amt);}
+  catch(e){
+    console.log(e , "\n Something went wrong when trying to sell!")
+  }
+  await printFullView(ctc, backend, user)
+}
+const rebaseCoin = async(ctc, backend, user) =>{
+  const contract = await user.contract(backend, ctc.getInfo())
+  const rebaseAPI = await contract.apis.Buyer;
+  try{
+  const rebase = await rebaseAPI.rebase();}
+  catch(e){
+    console.log(e, "\n Something went wrong when trying to rebase")
+  }
+  await printFullView(ctc, backend, user)
 }
 
-/*await sellSchmeckles(0)
-await getView()
-await buySchmeckles(0)
-await buySchmeckles(1)
-await buySchmeckles(2)
-await buySchmeckles(3)
-await buySchmeckles(4)
-await buySchmeckles(5)
-await buySchmeckles(6)
-await buySchmeckles(7)
-await sellSchmeckles(3)
-await sellSchmeckles(3)
-await claimFees(schmucks[1])
-await claimFees(schmucks[1])
-await buySchmeckles(3)
-await buySchmeckles(3)
-await buySchmeckles(3)
-await buySchmeckles(3)
-await buySchmeckles(3)
-await buySchmeckles(8)
-await buySchmeckles(9)
-await sellSchmeckles(1)
-await rebaseShop(6)
-await claimFees(schmeckler)
-await buySchmeckles(7)
-await sellSchmeckles(0)
-await sellSchmeckles(3)
-await sellSchmeckles(5)
-await buySchmeckles(5)
-await sellSchmeckles(7)
-await buySchmeckles(3)
-await buySchmeckles(5)
-await claimFees(schmucks[1])
-await sellSchmeckles(5)
-await sellSchmeckles(3)
 
-console.log("We are now going to wait for the deadline to arrive!");
-const deadline = await getDeadline();
-console.log(reachLib.bigNumberToNumber(deadline));
-console.log(reachLib.bigNumberToNumber(await reachLib.getNetworkSecs()));
-console.log(reachLib.bigNumberToNumber(deadline) + 5)
+await buyCoin(aShop, algoShop, users[0], 10)
+await buyCoin(aShop, algoShop, users[1], 10)
+await buyCoin(aShop, algoShop, users[2], 10)
+await buyCoin(aShop, algoShop, users[3], 10)
+await buyCoin(aShop, algoShop, users[4], 10)
+await sellCoin(aShop, algoShop, users[0], 10)
+await buyCoin(aShop, algoShop, users[9], 5)
+await buyCoin(aShop, algoShop, users[8], 15)
 
-await reachLib.waitUntilSecs(reachLib.bigNumberify(reachLib.bigNumberToNumber(deadline) + 5));
 
-console.log(reachLib.bigNumberToNumber(await reachLib.getNetworkSecs()));
+await sellCoin(aShop, algoShop, users[1], 10)
+await sellCoin(aShop, algoShop, users[2], 10)
+await reachLib.waitUntilSecs(await getDeadline(aShop, algoShop, users[0]))
+console.log(await getDeadline(aShop, algoShop, users[0]))
+await sellCoin(aShop, algoShop, users[3], 10)
+await sellCoin(aShop, algoShop, users[4], 10)
+await rebaseCoin(aShop, algoShop, users[9])
 
-await claimFees(schmucks[9])
-await rebaseShop(9)
-await getView()
-await rebaseShop(3)*/
 
-await buySchmeckles(0)
-await buySchmeckles(1)
-await buySchmeckles(2)
-await buySchmeckles(3)
-await buySchmeckles(4)
-await buySchmeckles(5)
-await buySchmeckles(6)
-await buySchmeckles(7)
-await sellSchmeckles(0)
-await sellSchmeckles(1)
-await sellSchmeckles(2)
-await sellSchmeckles(3)
-await sellSchmeckles(4)
-await sellSchmeckles(5)
-await sellSchmeckles(6)
-await sellSchmeckles(7)
-await buySchmeckles(0)
-await buySchmeckles(1)
-await buySchmeckles(2)
-await buySchmeckles(3)
-await buySchmeckles(4)
-await buySchmeckles(5)
-await buySchmeckles(6)
-await buySchmeckles(7)
-
-for ( const who of [ schmeckler, ...schmucks ]) {
-  console.warn(reachLib.formatAddress(who), 'has',
-    reachLib.formatCurrency(await reachLib.balanceOf(who)), "ALGO",
-    reachLib.formatWithDecimals(await reachLib.balanceOf(who, schmeckles.id), 0), "SHM");
-}
