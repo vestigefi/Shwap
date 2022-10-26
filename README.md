@@ -1,8 +1,16 @@
-# MagicalBox
-A box where you put in money, you wait and then you get money out. The box manager gets a 1BP fee.
+# Shwap
 
 
-Based on the conversation I heard from sbf, w/r to crypto. Apparently just 
-doing something like this is somehow creating value, so I wanted to put that
-to the test. Maybe I'm wrong though, idk. Might launch it, might not, still 
-uncertain.
+
+First iteration of Shwap by Vestige.Fi an Algorithmic shCoin
+
+
+Shwap is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+Shwap is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+Copyright 2022 BunsanMuchi
+
+
